@@ -1,0 +1,78 @@
+body {
+    font-family: "Times New Roman", Times, serif;
+}
+
+.container-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.box {
+    width: 50%;
+    margin-top: 40px;
+    padding: 7px 5px 100px 5px;
+}
+
+.img-container {
+    position: relative;
+    left: 50%;
+    margin-left: -75px;
+}
+
+.img-dimensions {
+    height: 150px;
+    width: 150px;
+    margin-top: 10px;
+}
+
+.txt-align-center {
+    text-align: center;
+}
+
+.txt-color-white {
+    color: white;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.txt-italic {
+    font-style: italic;
+}
+
+.txt-bold {
+    font-weight: bold;
+}
+
+p {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.txt-align-left {
+    text-align: left;
+}
+
+.bg-color-red {
+    background-color: #ff0000;
+}
+
+.bg-color-blue {
+    background-color: #6a5acd;
+}
+
+.bg-color-grey {
+    background-color: #686868;
+}
+
+.button {
+    margin: 1px 0.5px;
+    font-size: 12px;
+    border-radius: 7px;
+}
+
+.hide {
+    display: none;
+}

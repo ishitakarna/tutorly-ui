@@ -1,0 +1,24 @@
+{
+  "name": "mp0",
+  "version": "1.0.0",
+  "description": "CS498RK MP0",
+  "scripts": {
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider; webpack",
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider; webpack-dev-server --open",
+    "watch": "export NODE_OPTIONS=--openssl-legacy-provider; webpack --watch"
+  },
+  "keywords": [],
+  "author": "UIUC Web Programming Staff",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^3.4.2",
+    "file-loader": "^5.0.2",
+    "style-loader": "^1.1.3",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  }
+}
