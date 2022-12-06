@@ -1,0 +1,77 @@
+.nav-custom {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.nav-custom-links {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.nav-font {
+    font-family: "Solway", sans-serif;
+}
+
+.nav-item-decor {
+    font-size: large;
+    color: black;
+    position: relative;
+    text-decoration: none;
+    margin: 10px;
+    --bs-link-color: #3B71CA;
+    --bs-link-hover-color: #3B71CA;
+}
+
+#nav-form {
+    width: 50%;
+}
+
+.nav-item-decor::before,
+.nav-item-decor::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+.nav-item-decor::before {
+  background-color: #3B71CA;
+  height: 2px;
+  bottom: 0;
+  transform-origin: 100% 50%;
+  transform: scaleX(0);
+  transition: transform .3s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.nav-item-decor::after {
+  content: attr(data-replace);
+  height: 100%;
+  top: 0;
+  transform-origin: 100% 50%;
+  transform: translate3d(200%, 0, 0);
+  transition: transform .3s cubic-bezier(0.76, 0, 0.24, 1);
+  color: #3B71CA;
+}
+
+.nav-item-decor:hover::before {
+  transform-origin: 0% 50%;
+  transform: scaleX(1);
+}
+.nav-item-decor:hover::after {
+  transform: translate3d(0, 0, 0);
+}
+
+.nav-item-decor span {
+  display: inline-block;
+  transition: transform .3s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.nav-item-decor:hover span {
+  transform: translate3d(-200%, 0, 0);
+}
+
+#user-icon {
+    color: black;
+}
