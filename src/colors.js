@@ -1,0 +1,1 @@
+export const basePurple = '#702963';
