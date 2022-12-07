@@ -5,7 +5,7 @@ import './GroupCards.css'
 
 function GroupCards({tags}) {
     useEffect(() => {
-        console.log(Object.keys(tags).length)
+        //console.log(Object.keys(tags).length)
     });
 
     return (

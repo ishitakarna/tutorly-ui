@@ -10,7 +10,7 @@ function TopicCards({tagId}) {
     const api = new Api();
 
     useEffect(() => {
-        //getTopicsAndTutors();
+        getTopicsAndTutors();
     },[]);
 
     function getTopicsAndTutors() {
@@ -28,20 +28,19 @@ function TopicCards({tagId}) {
                 topic.overallRating = val.overallRating
                 topics.push(topic)
 
-                api.getUserForTopic(topic.topicId).then(result => {
-                    let data = result.data
-                    console.log(data)
-                    //topic.tutorName 
-                })
+                // api.getUserForTopic(topic.topicId).then(result => {
+                //     let data = result.data
+                //     console.log(data)
+                //     //topic.tutorName 
+                // })
             })
             setTopics(topics)
-
             setLoading(false)
             console.log(topics)
         })
     }
 
-    if(!isLoading) {
+    if(isLoading) {
         return (
             <div style={{textAlign: "center", padding: "10px"}}>
                 <h1>Loading..</h1>
@@ -51,12 +50,12 @@ function TopicCards({tagId}) {
     return (
         <>
         <Row xs={1} md={5} className="g-4">
-        {Array.from({ length: 20 }).map((_, idx) => (
-            <Col>
+        {topics.map((topic, idx) => (
+            <Col key={topic.topicId}>
             <Card>
                 <Card.Body>
-                <Card.Title className = "card-title-custom">React basics</Card.Title>
-                <Card.Text className = "card-text-custom"> Rating: 4.5/5 </Card.Text>
+                <Card.Title className = "card-title-custom">{topic.topicName}</Card.Title>
+                <Card.Text className = "card-text-custom"> Rating: {topic.overallRating}/5 </Card.Text>
                 <Card.Text className = "card-text-custom">Tutor: <a href="#" className="card-link-custom">John Doe</a></Card.Text>
                 </Card.Body>
             </Card>
