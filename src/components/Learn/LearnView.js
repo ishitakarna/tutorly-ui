@@ -2,6 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Api from "../../api";
 import { ListGroup } from "react-bootstrap";
+import TopicCards from "./TopicCards";
+import './LearnView.css'
+import GroupCards from "./GroupCards";
 
 function LearnView() {
     const [tags, setTags] = useState([]);
@@ -27,8 +30,6 @@ function LearnView() {
             })
             setTags(tags)
             setLoading(false)
-            console.log(tags)
-            console.log(topicLinks)
         })
     }
 
@@ -41,11 +42,19 @@ function LearnView() {
     }
     return (
         <>
+        <div className = "learn-container">
+        <div className = "group-container">
+            <GroupCards tags = {tags}/>
+        </div>
         {tags.map((tag) =>
             <ListGroup key={tag.tagId}>
-                <ListGroup.Item>{tag.tagName}</ListGroup.Item>
+                <ListGroup.Item className = "tag-container">{tag.tagName}</ListGroup.Item>
+                <div className = "topics-container">
+                    <TopicCards tagId = {tag.tagId}/>
+                </div>
             </ListGroup>
         )}   
+        </div>
         </>
     )
 }
