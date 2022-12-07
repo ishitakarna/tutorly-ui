@@ -12,6 +12,7 @@ build:
   variables:
     PUBLIC_URL: /fp
   script:
+    - unset CI
     - npm install
     - npm run build
   artifacts:
