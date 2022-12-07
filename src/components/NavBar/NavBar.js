@@ -10,7 +10,6 @@ import {
   MDBIcon,
   MDBNavbarNav,
   MDBNavbarItem,
-  MDBNavbarLink,
   MDBBtn,
   MDBDropdown,
   MDBDropdownToggle,
@@ -48,11 +47,11 @@ function NavBar() {
           <MDBNavbarNav className='mr-auto mb-2 mb-lg-0 nav-custom'>
               <div className='nav-custom-links'>
                 <MDBNavbarItem>
-                    <Link to="/learn" className='nav-item-decor'>Learn</Link>
+                    <Link to="/fp/learn" className='nav-item-decor'>Learn</Link>
                 </MDBNavbarItem>
 
                 <MDBNavbarItem>
-                    <Link to="/teach" className='nav-item-decor'>Teach</Link>
+                    <Link to="/fp/teach" className='nav-item-decor'>Teach</Link>
                 </MDBNavbarItem>
               </div>
 
@@ -69,10 +68,10 @@ function NavBar() {
                       <MDBIcon fas icon='user-graduate' size='lg' id="user-icon"></MDBIcon>
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
-                      <MDBDropdownItem><Link to="/profile" className='nav-item-decor'>Profile</Link></MDBDropdownItem>
-                      <MDBDropdownItem><Link to="/schedule" className='nav-item-decor'>Schedule</Link></MDBDropdownItem>
+                      <MDBDropdownItem><Link to="/fp/profile" className='nav-item-decor'>Profile</Link></MDBDropdownItem>
+                      <MDBDropdownItem><Link to="/fp/schedule" className='nav-item-decor'>Schedule</Link></MDBDropdownItem>
                       <hr></hr>
-                      <MDBDropdownItem><Link to="/logout" className='nav-item-decor'>Logout</Link></MDBDropdownItem>
+                      <MDBDropdownItem><Link to="/fp/logout" className='nav-item-decor'>Logout</Link></MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
             </MDBNavbarItem>
