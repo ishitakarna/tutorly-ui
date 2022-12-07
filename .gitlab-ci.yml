@@ -1,28 +1,30 @@
-image: node:latest
-
-variables:
-  PUBLIC_URL: /fp
-
 cache:
   paths:
     - node_modules
 
 stages:
+  - build
   - deploy
 
-pages:
-  stage: deploy
-
+build:
+  image: node:latest
+  stage: build
+  variables:
+    PUBLIC_URL: /fp
   script:
-    - unset CI
-    - npm install # Install all dependencies
-    - npm run build # Build for prod
-    - mv public _public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
-    - mv build public # Move build files to public dir for Gitlab Pages
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build/
 
+pages:
+  image: alpine:latest
+  stage: deploy
+  script:
+    - mv build public # Move build files to public dir for Gitlab Pages
   artifacts:
     paths:
       - public
-
   only:
     - main
