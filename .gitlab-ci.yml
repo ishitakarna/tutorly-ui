@@ -10,7 +10,7 @@ build:
   image: node:latest
   stage: build
   variables:
-    PUBLIC_URL: /fp
+    PUBLIC_URL: https://cs40916.gitlab.io/fp/
   script:
     - unset CI
     - npm install
