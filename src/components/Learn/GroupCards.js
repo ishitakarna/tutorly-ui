@@ -1,12 +1,11 @@
 import React from "react";
 import { Col, Button } from "react-bootstrap";
-import { useEffect } from "react";
 import './GroupCards.css'
 
 function GroupCards({tags, filterCondition, setFilterCondition}) {
 
     function handleGroupClick(e) {
-        if(filterCondition == e.target.value) {
+        if(filterCondition === e.target.value) {
             setFilterCondition("")
             e.target.style.backgroundColor = "#3B71CA";
             e.target.style.color = "white";

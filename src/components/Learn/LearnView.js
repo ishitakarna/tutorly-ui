@@ -61,7 +61,7 @@ function LearnView() {
         {filteredTags.map((tag) =>
             <ListGroup key={tag.tagId}>
                 <ListGroup.Item className = "tag-container">{tag.tagName}</ListGroup.Item>
-                { (filterCondition == "") ? 
+                { (filterCondition === "") ? 
                     <div className = "topics-container">
                         <TopicCards tagId = {tag.tagId}/>
                     </div> :
