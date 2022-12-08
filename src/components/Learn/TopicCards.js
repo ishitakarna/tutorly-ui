@@ -36,7 +36,6 @@ function TopicCards({tagId}) {
             })
             setTopics(topics)
             setLoading(false)
-            console.log(topics)
         })
     }
 

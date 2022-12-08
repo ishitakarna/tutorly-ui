@@ -9,11 +9,17 @@ import GroupCards from "./GroupCards";
 function LearnView() {
     const [tags, setTags] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const [filterCondition, setFilterCondition] = useState("");
+    const [filteredTags, setFilteredTags] = useState([]);
     const api = new Api();
 
     useEffect(() => {
         getTags();
-    },[]);
+    }, []);
+
+    useEffect(() => {
+        filterTags();
+    }, [filterCondition]);
 
     function getTags() {
         let tags = []
@@ -29,8 +35,14 @@ function LearnView() {
                 tags.push(tag)
             })
             setTags(tags)
+            setFilteredTags(tags)
             setLoading(false)
         })
+    }
+
+    function filterTags() {
+        let filtered = tags.filter(tag => tag.tagName.includes(filterCondition));
+        setFilteredTags(filtered)
     }
 
     if(isLoading) {
@@ -44,14 +56,19 @@ function LearnView() {
         <>
         <div className = "learn-container">
         <div className = "group-container">
-            <GroupCards tags = {tags}/>
+            <GroupCards tags = {tags} filterCondition = {filterCondition} setFilterCondition = {setFilterCondition}/>
         </div>
-        {tags.map((tag) =>
+        {filteredTags.map((tag) =>
             <ListGroup key={tag.tagId}>
                 <ListGroup.Item className = "tag-container">{tag.tagName}</ListGroup.Item>
-                <div className = "topics-container">
-                    <TopicCards tagId = {tag.tagId}/>
-                </div>
+                { (filterCondition == "") ? 
+                    <div className = "topics-container">
+                        <TopicCards tagId = {tag.tagId}/>
+                    </div> :
+                    <div>
+                        <TopicCards tagId = {tag.tagId}/>
+                    </div> 
+                }   
             </ListGroup>
         )}   
         </div>
