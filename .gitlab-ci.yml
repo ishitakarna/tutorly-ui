@@ -14,7 +14,8 @@ build:
   stage: build
   script:
     - unset CI
-    - npm install --legacy-peer-deps
+    - npm i react-google-login --legacy-peer-deps
+    - npm install
     - npm run build
   artifacts:
     paths:
