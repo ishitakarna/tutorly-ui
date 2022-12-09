@@ -21,6 +21,11 @@ import {
 
 function NavBar() {
   const [showBasic, setShowBasic] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+
+  function handleSearch(e) {
+    console.log(searchValue);
+  }
 
   return (
     <MDBNavbar expand='lg' light bgColor='light' className='nav-font'>
@@ -56,9 +61,10 @@ function NavBar() {
               </div>
 
             <MDBNavbarItem id="nav-form">
-              <MDBInputGroup tag="form" className='w-100'>
-                    <input className='form-control' placeholder="Search Topic" aria-label="Search Topic" type='Search' />
-                    <MDBBtn outline color="primary">Search</MDBBtn>
+              <MDBInputGroup tag="form" className='w-100' onSubmit={(e) => {e.preventDefault()}}>
+                    <input className='form-control' placeholder="Search Topic" aria-label="Search Topic" type='Search' 
+                            value = {searchValue} onChange={(e) => setSearchValue(e.target.value)}/>
+                    <MDBBtn outline color="primary" onClick={handleSearch}>Search</MDBBtn>
               </MDBInputGroup>
             </MDBNavbarItem>
 
