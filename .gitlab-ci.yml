@@ -14,10 +14,9 @@ pages:
   stage: deploy
 
   script:
+    - unset CI
     - npm install --legacy-peer-deps
     - npm run build
-    - mv public _public
-    - mv build public
 
   artifacts:
     paths:
