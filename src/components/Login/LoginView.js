@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {signInWithEmailAndPassword} from 'firebase/auth'
-import { GoogleButton } from 'react-google-button';
 import {auth} from './firebase'
 import {signInWithGoogle} from './firebase'
 import { GoogleLogin } from 'react-google-login';
@@ -23,8 +22,7 @@ import {
 
 function LoginView() {
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('') 
-  const [error, setError] = useState('')
+  const [password, setPassword] = useState('')
   const navigate = useNavigate()
   const clientId = '648126638686-jl6on0bbfsbpatfro1d42guv0596fj7o.apps.googleusercontent.com';
   

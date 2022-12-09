@@ -10,7 +10,7 @@ function LearnView() {
 
     useEffect(() => {
         getTags();
-    },[]);
+    },[]); // eslint-disable-line react-hooks/exhaustive-deps
 
     function getTags() {
         let tags = []
