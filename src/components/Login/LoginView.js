@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate,Link} from 'react-router-dom'
 import {signInWithEmailAndPassword} from 'firebase/auth'
 import {auth} from './firebase'
 import {signInWithGoogle} from './firebase'
@@ -35,8 +35,9 @@ function LoginView() {
       gapi.load('client:auth2', initClient);});
 
   const onSuccess = (res) => {
+    console.log(res.profileObj.email)
     localStorage.setItem("res", res);
-    localStorage.setItem("email", email);
+    localStorage.setItem("email", res.profileObj.email);
     navigate('/fp/learn')};
 
   const onFailure = (err) => {
@@ -49,6 +50,7 @@ function LoginView() {
     navigate('/fp/learn')}).catch(err => console.log(err.message))}
 
     const registerpage = () => {
+      // <Link to="/fp/register"></Link>
       navigate("/fp/register")
     }
 
@@ -69,7 +71,7 @@ function LoginView() {
                </div>
 
               <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email' value={email} placeholder='Enter your email' onChange={e => setEmail(e.target.value)} required/>
-              <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' value={password} required placeholder='Enter your password' onChange={e => setPassword(e.target.value)}/>
+              <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' value={password} placeholder='Enter your password' onChange={e => setPassword(e.target.value)} required/>
               
               <div className="text-center pt-1 mb-5 pb-1">
                 <MDBBtn className="mb-4 w-100 gradient-custom-3" type='submit'>Sign in</MDBBtn>

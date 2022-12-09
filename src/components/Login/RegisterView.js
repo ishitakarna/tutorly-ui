@@ -1,7 +1,7 @@
 import {auth} from './firebase'
 import {createUserWithEmailAndPassword} from 'firebase/auth'
 import {useState} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate,Link} from 'react-router-dom'
 import { GoogleLogin } from 'react-google-login';
 import Form from 'react-bootstrap/Form';
 import {
@@ -25,6 +25,7 @@ export default function RegisterView() {
     if (password !== '' && confirmPassword !== ''){
       if (password !== confirmPassword) {
         isValid = false
+        alert('Passwords does not match')
         setError('Passwords does not match')}}
     return isValid} 
   const register = e => {
@@ -35,8 +36,9 @@ export default function RegisterView() {
               console.log(res.user);}).catch(err => setError(err.message))}
       setEmail('')
       setPassword('')
-      setConfirmPassword('')
-      navigate("/fp/userDetails")}
+      setConfirmPassword('');
+      <Link to="/fp/learn"></Link>}
+
   const loginPage = () => {
     navigate("/fp/login")}
     
@@ -69,9 +71,9 @@ export default function RegisterView() {
             <img src={mainLogo} style={{width: '150px'}} alt="logo" />
              <h4 className="mt-1 mb-5 pb-1">Create Account</h4>
           </div>
-          <MDBInput wrapperClass='mb-4' label='Email address' name='email' type='email' value={email} placeholder="Enter your email" required onChange={e => setEmail(e.target.value)}/>
-          <MDBInput wrapperClass='mb-4' label='Password' name='password' type='password' value={password} required placeholder='Enter your password' onChange={e => setPassword(e.target.value)}/>
-          <MDBInput wrapperClass='mb-4' label='Confirm Password' name='confirmPassword' type='password' value={confirmPassword} required placeholder='Enter your password again' onChange={e => setConfirmPassword(e.target.value)}/>
+          <MDBInput wrapperClass='mb-4' label='Email address' name='email' type='email' value={email} placeholder="Enter your email" onChange={e => setEmail(e.target.value)} required/>
+          <MDBInput wrapperClass='mb-4' label='Password' name='password' type='password' value={password} placeholder='Enter your password' onChange={e => setPassword(e.target.value)} required/>
+          <MDBInput wrapperClass='mb-4' label='Confirm Password' name='confirmPassword' type='password' value={confirmPassword} placeholder='Enter your password again' onChange={e => setConfirmPassword(e.target.value)} required/>
           <div className="text-center pt-1 mb-5 pb-1">
             <MDBBtn className="mb-4 w-100 gradient-custom-3" type='submit' onClick={register}>Sign Up</MDBBtn>
               <p>OR</p>

@@ -14,6 +14,7 @@ function App() {
     <Router>
       <Routes>
           {/* Routes that need the NavBar*/}
+          
             <Route path="/fp" element={<LayoutsWithNavbar />}>
             <Route path="/fp/learn" element={<LearnView/>} />
             <Route path="/fp/teach" element={<TeachView/>} />
@@ -23,11 +24,8 @@ function App() {
 
           
           {/* Routes without the NavBar*/}
+          <Route path="/fp/login" element={<LoginView/>}/>
           
-          <Route
-            path="/fp/login"
-            element={<LoginView/>}
-          />
           <Route
             path="/fp/register"
             element={<RegisterView/>}
