@@ -43,7 +43,7 @@ export default function RegisterView() {
   return(
     <div className='auth' style={{ 
         height: '100%', position: 'absolute', left: '0px', width: '100%', overflow: 'hidden',
-        backgroundImage: url('https://images.pexels.com/photos/733852/pexels-photo-733852.jpeg?auto=compress'),transform: [{ rotate: '180deg'}]}}>
+        backgroundImage: "url('https://images.pexels.com/photos/733852/pexels-photo-733852.jpeg?auto=compress')",transform: [{ rotate: '180deg'}]}}>
     
      <MDBContainer className="my-5 gradient-form" >
      <MDBRow>

@@ -46,7 +46,7 @@ function LoginView() {
     e.preventDefault()
     signInWithEmailAndPassword(auth, email, password).then(() => {
     localStorage.setItem("email", email);
-    navigate('/fp')}).catch(err => setError(err.message))}
+    navigate('/fp')}).catch(err => console.log(err.message))}
 
     const registerpage = () => {
       navigate("/fp/register")
