@@ -58,7 +58,7 @@ function TopicCards({tagId}) {
 
     if(isLoading) {
         return (
-            <div style={{textAlign: "center", padding: "10px"}}>
+            <div style={{textAlign: "center", padding: "10px", fontFamily: "Solway"}}>
                 <h1>Loading..</h1>
             </div>
         ) 

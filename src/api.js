@@ -32,4 +32,8 @@ export default class Api {
     getUserForTopic = (topicId) => {
         return this.init().get(`${this.api_url}topics/${topicId}/user`)
     }
+
+    getBookedSlots = () => {
+        return this.init().get(`${this.api_url}userSlots`)
+    }
 }

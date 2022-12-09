@@ -1,10 +1,12 @@
-import React from "react";
+import React, { lazy, Suspense } from 'react';
 import { useState, useEffect } from "react";
 import Api from "../../api";
 import { ListGroup } from "react-bootstrap";
 import TopicCards from "./TopicCards";
 import './LearnView.css'
 import GroupCards from "./GroupCards";
+
+//const TopicCards = lazy(() => import('./TopicCards'))
 
 function LearnView() {
     const [tags, setTags] = useState([]);
@@ -41,13 +43,14 @@ function LearnView() {
     }
 
     function filterTags() {
+        console.log("Filter tags called")
         let filtered = tags.filter(tag => tag.tagName.includes(filterCondition));
         setFilteredTags(filtered)
     }
 
     if(isLoading) {
         return (
-            <div style={{textAlign: "center", padding: "10px"}}>
+            <div style={{textAlign: "center", padding: "10px" , fontFamily: "Solway"}}>
                 <h1>Loading..</h1>
             </div>
         ) 
@@ -63,7 +66,9 @@ function LearnView() {
                 <ListGroup.Item className = "tag-container">{tag.tagName}</ListGroup.Item>
                 { (filterCondition === "") ? 
                     <div className = "topics-container">
-                        <TopicCards tagId = {tag.tagId}/>
+                        {/* <Suspense fallback={Loader}> */}
+                            <TopicCards tagId = {tag.tagId}/>
+                        {/* </Suspense> */}
                     </div> :
                     <div>
                         <TopicCards tagId = {tag.tagId}/>
