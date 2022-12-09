@@ -1,11 +1,8 @@
 import {auth} from './firebase'
-import {createUserWithEmailAndPassword, sendEmailVerification} from 'firebase/auth'
-import {useState, useEffect} from 'react'
-import {Link, useNavigate} from 'react-router-dom'
-// import {signInWithEmailAndPassword} from 'firebase/auth'
+import {createUserWithEmailAndPassword} from 'firebase/auth'
+import {useState} from 'react'
+import {useNavigate} from 'react-router-dom'
 import { GoogleLogin } from 'react-google-login';
-import { gapi } from 'gapi-script';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {
     MDBBtn,
@@ -46,7 +43,7 @@ export default function RegisterView() {
   return(
     <div className='auth' style={{ 
         height: '100%', position: 'absolute', left: '0px', width: '100%', overflow: 'hidden',
-        backgroundImage: "url(" + 'https://images.pexels.com/photos/733852/pexels-photo-733852.jpeg?auto=compress' + ")",transform: [{ rotate: '180deg'}]}}>
+        backgroundImage: "url('https://images.pexels.com/photos/733852/pexels-photo-733852.jpeg?auto=compress')",transform: [{ rotate: '180deg'}]}}>
     
      <MDBContainer className="my-5 gradient-form" >
      <MDBRow>
