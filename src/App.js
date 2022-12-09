@@ -6,6 +6,8 @@ import TeachView from './components/Teach/TeachView';
 import ProfileView from './components/Profile/ProfileView';
 import ScheduleView from './components/Schedule/ScheduleView';
 import LoginView from './components/Login/LoginView';
+import RegisterView from './components/Login/RegisterView';
+import UserDetailView from './components/DetailView/UserDetailView';
 
 function App() {
   return (
@@ -19,10 +21,24 @@ function App() {
             <Route path="/fp/schedule" element={<ScheduleView/>} />
           </Route>
 
+          
           {/* Routes without the NavBar*/}
+          <Route
+            path="/"
+            element={<LoginView/>}
+          />
+
           <Route
             path="/fp/login"
             element={<LoginView/>}
+          />
+          <Route
+            path="/fp/register"
+            element={<RegisterView/>}
+          />
+          <Route
+            path="/fp/userDetails"
+            element={<UserDetailView/>}
           />
       </Routes>
     </Router>
