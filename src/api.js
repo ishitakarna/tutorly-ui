@@ -24,16 +24,4 @@ export default class Api {
     getTags = () => {
         return this.init().get(`${this.api_url}tags`);
     };
-
-    getTopicsForTag = (tagId) => {
-        return this.init().get(`${this.api_url}tags/${tagId}/topics`)
-    }
-
-    getUserForTopic = (topicId) => {
-        return this.init().get(`${this.api_url}topics/${topicId}/user`)
-    }
-
-    getBookedSlots = () => {
-        return this.init().get(`${this.api_url}userSlots`)
-    }
 }

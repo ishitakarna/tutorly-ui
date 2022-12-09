@@ -1,27 +1,16 @@
-import React, { lazy, Suspense } from 'react';
+import React from "react";
 import { useState, useEffect } from "react";
 import Api from "../../api";
 import { ListGroup } from "react-bootstrap";
-import TopicCards from "./TopicCards";
-import './LearnView.css'
-import GroupCards from "./GroupCards";
-
-//const TopicCards = lazy(() => import('./TopicCards'))
 
 function LearnView() {
     const [tags, setTags] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const [filterCondition, setFilterCondition] = useState("");
-    const [filteredTags, setFilteredTags] = useState([]);
     const api = new Api();
 
     useEffect(() => {
         getTags();
-    }, []);
-
-    useEffect(() => {
-        filterTags();
-    }, [filterCondition]);
+    },[]);
 
     function getTags() {
         let tags = []
@@ -37,46 +26,26 @@ function LearnView() {
                 tags.push(tag)
             })
             setTags(tags)
-            setFilteredTags(tags)
             setLoading(false)
+            console.log(tags)
+            console.log(topicLinks)
         })
-    }
-
-    function filterTags() {
-        console.log("Filter tags called")
-        let filtered = tags.filter(tag => tag.tagName.includes(filterCondition));
-        setFilteredTags(filtered)
     }
 
     if(isLoading) {
         return (
-            <div style={{textAlign: "center", padding: "10px" , fontFamily: "Solway"}}>
+            <div style={{textAlign: "center", padding: "10px"}}>
                 <h1>Loading..</h1>
             </div>
         ) 
     }
     return (
         <>
-        <div className = "learn-container">
-        <div className = "group-container">
-            <GroupCards tags = {tags} filterCondition = {filterCondition} setFilterCondition = {setFilterCondition}/>
-        </div>
-        {filteredTags.map((tag) =>
+        {tags.map((tag) =>
             <ListGroup key={tag.tagId}>
-                <ListGroup.Item className = "tag-container">{tag.tagName}</ListGroup.Item>
-                { (filterCondition === "") ? 
-                    <div className = "topics-container">
-                        {/* <Suspense fallback={Loader}> */}
-                            <TopicCards tagId = {tag.tagId}/>
-                        {/* </Suspense> */}
-                    </div> :
-                    <div>
-                        <TopicCards tagId = {tag.tagId}/>
-                    </div> 
-                }   
+                <ListGroup.Item>{tag.tagName}</ListGroup.Item>
             </ListGroup>
         )}   
-        </div>
         </>
     )
 }
