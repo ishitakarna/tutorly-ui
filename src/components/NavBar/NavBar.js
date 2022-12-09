@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './NavBar.css';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { getAuth, signOut } from "firebase/auth";
 
 import {
   MDBContainer,
@@ -25,6 +26,15 @@ function NavBar() {
 
   function handleSearch(e) {
     console.log(searchValue);
+  }
+
+  const logout = () => {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
   }
 
   return (
@@ -77,7 +87,7 @@ function NavBar() {
                       <MDBDropdownItem><Link to="/fp/profile" className='nav-item-decor'>Profile</Link></MDBDropdownItem>
                       <MDBDropdownItem><Link to="/fp/schedule" className='nav-item-decor'>Schedule</Link></MDBDropdownItem>
                       <hr></hr>
-                      <MDBDropdownItem><Link to="/fp/logout" className='nav-item-decor'>Logout</Link></MDBDropdownItem>
+                      <MDBDropdownItem><Link to="/fp/login" onClick = {logout} className='nav-item-decor'>Logout</Link></MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
             </MDBNavbarItem>
