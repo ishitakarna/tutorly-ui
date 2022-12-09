@@ -1,7 +1,7 @@
 image: node:latest
 
 variables:
-  PUBLIC_URL: /fp
+  PUBLIC_URL: /fp/login
 
 cache:
   paths:
