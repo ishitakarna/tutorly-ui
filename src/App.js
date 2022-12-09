@@ -14,7 +14,7 @@ function App() {
     <Router>
       <Routes>
           {/* Routes that need the NavBar*/}
-          <Route path="/fp" element={<LoginView />}>
+            <Route path="/fp" element={<LayoutsWithNavbar />}>
             <Route path="/fp/learn" element={<LearnView/>} />
             <Route path="/fp/teach" element={<TeachView/>} />
             <Route path="/fp/profile" element={<ProfileView/>} />
@@ -23,6 +23,7 @@ function App() {
 
           
           {/* Routes without the NavBar*/}
+          
           <Route
             path="/fp/login"
             element={<LoginView/>}
