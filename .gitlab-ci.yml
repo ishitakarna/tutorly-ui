@@ -1,32 +1,27 @@
+image: node:latest
+
 variables:
   PUBLIC_URL: /fp
 
 cache:
   paths:
-    - node_modules
+  - node_modules
 
 stages:
-  - build
   - deploy
 
-build:
-  image: node:latest
-  stage: build
+pages:
+  stage: deploy
+
   script:
-    - unset CI
     - npm install --legacy-peer-deps
     - npm run build
-  artifacts:
-    paths:
-      - build/
+    - mv public _public
+    - mv build public
 
-pages:
-  image: alpine:latest
-  stage: deploy
-  script:
-    - mv build public # Move build files to public dir for Gitlab Pages
   artifacts:
     paths:
-      - public
+    - public
+
   only:
     - main
