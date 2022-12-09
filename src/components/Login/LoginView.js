@@ -37,7 +37,7 @@ function LoginView() {
   const onSuccess = (res) => {
     localStorage.setItem("res", res);
     localStorage.setItem("email", email);
-    navigate('/fp')};
+    navigate('/fp/learn')};
 
   const onFailure = (err) => {
     alert("Login Failed")};
