@@ -52,4 +52,8 @@ export default class Api {
     getUserSlots = (id) => {
         return this.init().get(`${this.api_url}v2/userSlots/${id}`);
     };
+
+    getUserTopics = (id) => {
+        return this.init().get(`${this.api_url}v2/topics/user/${id}`);
+    };
 }

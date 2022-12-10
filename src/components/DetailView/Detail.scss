@@ -19,8 +19,19 @@ p, h1 {
 .MDBCardText{
     text-align: left;
 }
-.MDBCardTitle{
+.MDBCardHTitle{
     text-align: center;
+    font-size: x-large;
+    font-family: 'Solway';
+    font-weight: bold;
+}
+.MDBCardSubTitle {
+    text-align: center;
+}
+.MDBCardTitle{
+    font-size: large;
+    font-family: 'Solway';
+    font-weight: bold;
 }
 
 .detailsForm {
