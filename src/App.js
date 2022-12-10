@@ -9,14 +9,17 @@ import LoginView from './components/Login/LoginView';
 import RegisterView from './components/Login/RegisterView';
 import UserDetailView from './components/DetailView/UserDetailView';
 import TopicDetailView from './components/DetailView/TopicDetailView';
+import {useNavigate} from 'react-router-dom';
+import { useEffect } from "react";
 
 function App() {
+  
   return (
     <Router>
       <Routes>
-          {/* Routes that need the NavBar*/}
+          {/* Routes that need the NavBar*/} 
           
-            <Route path="/fp" element={<LayoutsWithNavbar />}>
+            <Route path="/fp" element={<LayoutsWithNavbar/>}>
             <Route path="/fp/learn" element={<LearnView/>} />
             <Route path="/fp/teach" element={<TeachView/>} />
             <Route path="/fp/profile" element={<ProfileView/>} />
@@ -42,6 +45,16 @@ function App() {
 }
 
 function LayoutsWithNavbar() {
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+    if (!email) {
+      navigate('/fp/login');
+      return;
+    }
+  }, []);
+
   return (
     <>
       <NavBar/>
