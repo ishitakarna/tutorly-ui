@@ -4,11 +4,20 @@ import Api from "../../api";
 import { ListGroup } from "react-bootstrap";
 import TopicCards from "./TopicCards";
 import './LearnView.css'
+import {useNavigate,Link} from 'react-router-dom';
 import GroupCards from "./GroupCards";
 
 //const TopicCards = lazy(() => import('./TopicCards'))
 
 function LearnView() {
+    const navigate = useNavigate()
+    const [email] = useState([]);
+    useEffect(() => {
+    const items = localStorage.getItem('email');
+    if (!items) {
+    navigate('/fp/login');
+    }
+    }, []);
     const [tags, setTags] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [filterCondition, setFilterCondition] = useState("");
