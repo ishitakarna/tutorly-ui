@@ -20,7 +20,7 @@ import {
   } from 'mdb-react-ui-kit';
 import { useState, useEffect } from "react";
 import { ListGroup } from "react-bootstrap";
-import AddCourse from "./AddCourse";
+//import AddCourse from "./AddCourse";
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 
 function TeachView() {
