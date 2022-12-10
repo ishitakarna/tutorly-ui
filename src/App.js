@@ -9,6 +9,7 @@ import LoginView from './components/Login/LoginView';
 import RegisterView from './components/Login/RegisterView';
 import UserDetailView from './components/DetailView/UserDetailView';
 import TopicDetailView from './components/DetailView/TopicDetailView';
+import SearchView from './components/Search/SearchView';
 import {useNavigate} from 'react-router-dom';
 import { useEffect } from "react";
 
@@ -18,10 +19,10 @@ function App() {
     <Router>
       <Routes>
           {/* Routes that need the NavBar*/} 
-          
-            <Route path="/fp" element={<LayoutsWithNavbar/>}>
+          <Route path="/fp" element={<LayoutsWithNavbar/>}>
             <Route path="/fp/learn" element={<LearnView/>} />
             <Route path="/fp/teach" element={<TeachView/>} />
+            <Route path="/fp/results" element={<SearchView/>} />
             <Route path="/fp/profile" element={<ProfileView/>} />
             <Route path="/fp/schedule" element={<ScheduleView/>} />
             <Route path="/fp/course/:id" element={<TopicDetailView/>} />

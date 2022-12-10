@@ -21,13 +21,14 @@ export default class Api {
         return this.client;
     };
 
+    // Used in learn default page
     getTags = () => {
-        return this.init().get(`${this.api_url}tags`);
+        return this.init().get(`${this.api_url}v2/tags`);
     };
 
-    getTopicsForTag = (tagId) => {
-        return this.init().get(`${this.api_url}tags/${tagId}/topics`)
-    }
+    // getTopicsForTag = (tagId) => {
+    //     return this.init().get(`${this.api_url}tags/${tagId}/topics`)
+    // }
 
     getUserForTopic = (topicId) => {
         return this.init().get(`${this.api_url}topics/${topicId}/user`)
