@@ -160,11 +160,11 @@ function TopicDetailView() {
         <>
         <MDBCard>
             <MDBCardBody>
-                <MDBCardTitle className="MDBCardTitle">{topic.topicName}</MDBCardTitle>
-                <MDBCardSubTitle className="MDBCardTitle">Taught By {topic.user.userName}</MDBCardSubTitle>
+                <MDBCardTitle className="MDBCardHTitle">{topic.topicName}</MDBCardTitle>
+                <MDBCardSubTitle className="MDBCardSubTitle">Taught By {topic.user.userName}</MDBCardSubTitle>
             </MDBCardBody>
             <MDBCardBody>
-                <MDBCardTitle>Description</MDBCardTitle>
+                <MDBCardTitle className="MDBCardTitle">Description</MDBCardTitle>
                 <hr style={{
                     background: 'grey',
                     color: 'grey',
@@ -176,7 +176,7 @@ function TopicDetailView() {
             <MDBRow>
             <MDBCol sm='6'>
             <MDBCardBody>
-                <MDBCardTitle>Rating</MDBCardTitle>
+                <MDBCardTitle className="MDBCardTitle">Rating</MDBCardTitle>
                 <hr style={{
                     background: 'grey',
                     color: 'grey',
@@ -188,7 +188,7 @@ function TopicDetailView() {
             </MDBCol>
             <MDBCol sm='6'>
             <MDBCardBody>
-                <MDBCardTitle>Cost</MDBCardTitle>
+                <MDBCardTitle className="MDBCardTitle">Cost</MDBCardTitle>
                 <hr style={{
                     background: 'grey',
                     color: 'grey',
@@ -200,7 +200,7 @@ function TopicDetailView() {
             </MDBCol>
             </MDBRow>
             <MDBCardBody>
-                <MDBCardTitle>Book A Slot</MDBCardTitle>
+                <MDBCardTitle className="MDBCardTitle">Book A Slot</MDBCardTitle>
                 <hr style={{
                     background: 'grey',
                     color: 'grey',

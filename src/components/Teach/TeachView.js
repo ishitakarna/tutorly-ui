@@ -5,12 +5,22 @@ import {
     MDBCard,
     MDBCardBody,
     MDBCardTitle,
-    MDBCardSubTitle,
     MDBCardText,
-    MDBBtn
+    MDBBtn,
+    MDBModal,
+    MDBModalDialog,
+    MDBModalContent,
+    MDBModalHeader,
+    MDBModalTitle,
+    MDBModalBody,
+    MDBModalFooter,
+    MDBInput,
+    MDBRow,
+    MDBCol
   } from 'mdb-react-ui-kit';
 import { useState, useEffect } from "react";
 import { ListGroup } from "react-bootstrap";
+//import AddCourse from "./AddCourse";
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 
 function TeachView() {
@@ -21,33 +31,58 @@ function TeachView() {
     const [topics, setTopics] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [active, setActive] = useState(null);
+    const [basicModal, setBasicModal] = useState(false);
+    const toggleShow = () => setBasicModal(!basicModal);
+    const [course, setCourse] = useState({});
     const api = new Api();
-    var userID = 1;
+    var userID = 7;
 
     useEffect(() => {
-        getTopics();
+      getUserTopics();
     },[]);
 
     const chooseTopic = () => {
       alert("Selected")
     }
 
-    function getTopics() {
+    function getUserTopics() {
       let topics = []
       let userLinks = []
-      api.getTopics().then(result => {
-          let data = result.data._embedded.topics
+      api.getUserTopics(userID).then(result => {
+          console.log(result)
+          let data = result.data
           Object.keys(data).forEach(function(key) {
               let topic = {}
               let val = data[key]
               topic.topicId = val.topicId
               topic.topicName = val.topicName
-              userLinks.push(val._links.user.href)
               topics.push(topic)
           })
           setTopics(topics)
           setLoading(false)
       })
+    }
+
+    const onChange = (e) => {
+      setCourse({ ...course, [e.target.name]: e.target.value });
+    };
+
+    function addCourse(){
+      var newCourse = {}
+
+      newCourse.topicName = course.title;
+      newCourse.description = course.desc;
+      newCourse.creditPerHr = course.price;
+      newCourse.experienceLevel = course.exp;
+      newCourse.overallRating = course.rate;
+      newCourse.user = `${api.api_url}users/${userID}`
+
+      const topicURL = `${api.api_url}topics`
+      axios.post(topicURL, newCourse)
+        .then((response)=> console.log(response))
+        .catch(error => console.log(error))
+        .finally(() => {toggleShow();
+          window.location.reload();})
     }
 
     function timeSlotValidator(slotTime) {
@@ -105,14 +140,13 @@ function TeachView() {
         <>
         <MDBCard>
         <MDBCardBody>
-          <MDBCardTitle>Courses Taught</MDBCardTitle>
+          <MDBCardTitle className="MDBCardTitle">Courses Taught</MDBCardTitle>
           <hr style={{
               background: 'grey',
               color: 'grey',
               borderColor: 'grey',
               height: '2px',
               }}/>
-          <MDBCardText className="MDBCardText">Set your availability on your own terms. Here, you can select a topic and different time slots for your schedule.</MDBCardText>
           {topics.slice(0, 5).map((topic) =>
             <ListGroup className="listrow" key={topic.topicId}>
                 <ListGroup.Item onClick={() => setActive(topic)}
@@ -121,15 +155,72 @@ function TeachView() {
                 </ListGroup.Item>
             </ListGroup>
           )} 
+          <br />
+          <MDBBtn className='mb-4' size='md' type="submit" onClick={toggleShow}>ADD COURSES</MDBBtn>
+
+          <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
+            <MDBModalDialog>
+              <MDBModalContent>
+                <MDBModalHeader>
+                  <MDBModalTitle>Course Details</MDBModalTitle>
+                  <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn>
+                </MDBModalHeader>
+                <MDBModalBody>
+                  <MDBInput wrapperClass='mb-4' label='Title' id='form3' type='text'
+                    value={course.title}
+                    name='title'
+                    onChange={onChange}
+                    required/>
+                  <MDBInput wrapperClass='mb-4' label='Description' id='form4' type='text'
+                    value={course.desc}
+                    name='desc'
+                    onChange={onChange}
+                    required/>
+                  <MDBRow>
+                    <MDBCol col='4'>
+                      <MDBInput wrapperClass='mb-4' label='Price, $' id='form1' type='text'
+                        value={course.price}
+                        name='price'
+                        onChange={onChange}
+                        required/>
+                    </MDBCol>
+                    <MDBCol col='4'>
+                      <MDBInput wrapperClass='mb-4' label='Rating' id='form2' type='text'
+                        value={course.rate}
+                        name='rate'
+                        onChange={onChange}
+                        required/>
+                    </MDBCol>
+                    <MDBCol col='4'>
+                      <MDBInput wrapperClass='mb-4' label='Experience' id='form2' type='text'
+                        value={course.exp}
+                        name='exp'
+                        onChange={onChange}
+                        required/>
+                    </MDBCol>
+                  </MDBRow>
+                </MDBModalBody>
+
+                <MDBModalFooter>
+                  <MDBBtn color='secondary' onClick={toggleShow}>
+                    Close
+                  </MDBBtn>
+                  <MDBBtn onClick={addCourse}>Add Course</MDBBtn>
+                </MDBModalFooter>
+              </MDBModalContent>
+            </MDBModalDialog>
+          </MDBModal>
+
         </MDBCardBody>
         <MDBCardBody>
-            <MDBCardTitle>Time Slots</MDBCardTitle>
+            <MDBCardTitle className="MDBCardTitle">Time Slots</MDBCardTitle>
             <hr style={{
                 background: 'grey',
                 color: 'grey',
                 borderColor: 'grey',
                 height: '2px',
                 }}/>
+            <MDBCardText className="MDBCardText">Set your availability on your own terms. Here, you can select different time slots for your schedule.</MDBCardText>
             <DayTimePicker timeSlotSizeMinutes={60} 
                 onConfirm={handleScheduled}
                 isLoading={isScheduling}
