@@ -4,6 +4,7 @@ import Api from "../../api";
 import { Row, Col, Card } from "react-bootstrap";
 import './TopicCards.css'
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 function TopicCards({tagId}) {
     const [topics, setTopics] = useState([])
@@ -68,6 +69,7 @@ function TopicCards({tagId}) {
         <Row xs={1} md={5} className="g-4">
         {topics.map((topic, idx) => (
             <Col key={topic.topicId}>
+            <Link style={{textDecoration:"None"}} to={`/fp/course/${topic.topicId}`} className="listrow">
             <Card>
                 <Card.Body>
                 <Card.Title className = "card-title-custom">{topic.topicName}</Card.Title>
@@ -75,6 +77,7 @@ function TopicCards({tagId}) {
                 <Card.Text className = "card-text-custom">Tutor: <a href="#" className="card-link-custom">{topicTutor[topic.topicId]}</a></Card.Text>
                 </Card.Body>
             </Card>
+            </Link>
             </Col>
         ))}
         </Row>

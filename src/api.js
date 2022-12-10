@@ -36,4 +36,20 @@ export default class Api {
     getBookedSlots = () => {
         return this.init().get(`${this.api_url}userSlots`)
     }
+
+    getTopicDetails = (id) => {
+        return this.init().get(`${this.api_url}topics/${id}`);
+    };
+
+    getTopics = () => {
+        return this.init().get(`${this.api_url}topics`);
+    };
+
+    getTopicUser = (id) => {
+        return this.init().get(`${this.api_url}v2/topics/${id}`);
+    };
+
+    getUserSlots = (id) => {
+        return this.init().get(`${this.api_url}v2/userSlots/${id}`);
+    };
 }

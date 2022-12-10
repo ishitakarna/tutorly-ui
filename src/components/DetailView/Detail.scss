@@ -1,0 +1,36 @@
+body {
+    font-family: "Solway", sans-serif;
+}
+
+.userDetails{
+    margin: auto;
+    width: 70%;
+    border: 2px solid black;
+    padding: 10px;
+}
+p, h1 {
+    text-align: center;
+}
+.col-md-8 {
+    margin: auto;
+    padding: auto 10px;
+}
+
+.MDBCardText{
+    text-align: left;
+}
+.MDBCardTitle{
+    text-align: center;
+}
+
+.detailsForm {
+    display: flex;
+    flex-direction: column;
+    align-items: space-around;
+}
+
+.fm-error {
+    color: red;
+    font-size: small;
+    text-align: left;
+}
