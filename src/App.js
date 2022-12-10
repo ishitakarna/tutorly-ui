@@ -8,6 +8,7 @@ import ScheduleView from './components/Schedule/ScheduleView';
 import LoginView from './components/Login/LoginView';
 import RegisterView from './components/Login/RegisterView';
 import UserDetailView from './components/DetailView/UserDetailView';
+import TopicDetailView from './components/DetailView/TopicDetailView';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/fp/teach" element={<TeachView/>} />
             <Route path="/fp/profile" element={<ProfileView/>} />
             <Route path="/fp/schedule" element={<ScheduleView/>} />
+            <Route path="/fp/course/:id" element={<TopicDetailView/>} />
           </Route>
 
           

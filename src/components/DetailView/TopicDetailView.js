@@ -37,167 +37,6 @@ function TopicDetailView() {
     const [scheduleErr, setScheduleErr] = useState('');
     const [slots, setSlot] = useState('');
 
-    function fakeRequest(data) {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            // Uncomment below to trigger error:
-            //return reject('Error: KABOOM!');
-            resolve({
-              status: 'ok',
-              scheduled: data
-            });
-          }, 2e3);
-        });
-      }
-
-    function mockAnswer() {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              // Uncomment below to trigger error:
-              //return reject('Error: KABOOM!');
-              resolve({
-                topicId: 46,
-                user: {
-                    userId: 1,
-                    userName: "Aditya K",
-                    email: "aditya@illinois.edu",
-                    university: "UIUC",
-                    userDegree: "MCS",
-                    phoneNumber: "9876543211"
-                },
-                topicName: "Time Complexity",
-                description: "Learn basics of time complexity",
-                creditPerHr: 10.0,
-                experienceLevel: 5.0,
-                overallRating: 4.5
-            });
-            }, 2e3);
-          });
-    }
-
-    function mockSlot() {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              // Uncomment below to trigger error:
-              //return reject('Error: KABOOM!');
-              resolve([
-                {
-                    "slotId": 106,
-                    "user": {
-                        "userId": 1,
-                        "userName": "Aditya K",
-                        "email": "aditya@illinois.edu",
-                        "university": "UIUC",
-                        "userDegree": "MCS",
-                        "phoneNumber": "9876543211"
-                    },
-                    "topic": null,
-                    "slotDate": "2022-12-02",
-                    "startTime": "12:00:00",
-                    "endTime": "13:00:00",
-                    "isBooked": false,
-                    "bookedByUser": null
-                },
-                {
-                    "slotId": 116,
-                    "user": {
-                        "userId": 1,
-                        "userName": "Aditya K",
-                        "email": "aditya@illinois.edu",
-                        "university": "UIUC",
-                        "userDegree": "MCS",
-                        "phoneNumber": "9876543211"
-                    },
-                    "topic": {
-                        "topicId": 46,
-                        "user": {
-                            "userId": 1,
-                            "userName": "Aditya K",
-                            "email": "aditya@illinois.edu",
-                            "university": "UIUC",
-                            "userDegree": "MCS",
-                            "phoneNumber": "9876543211"
-                        },
-                        "topicName": "Time Complexity",
-                        "description": "Learn basics of time complexity",
-                        "creditPerHr": 10.0,
-                        "experienceLevel": 5.0,
-                        "overallRating": 4.5
-                    },
-                    "slotDate": "2022-12-10",
-                    "startTime": "12:00:00",
-                    "endTime": "13:00:00",
-                    "isBooked": true,
-                    "bookedByUser": {
-                        "userId": 10,
-                        "userName": "Nikhil S",
-                        "email": "nikhil@illinois.edu",
-                        "university": "NEU",
-                        "userDegree": "MSCS",
-                        "phoneNumber": "9876543210"
-                    }
-                },
-                {
-                    "slotId": 117,
-                    "user": {
-                        "userId": 1,
-                        "userName": "Aditya K",
-                        "email": "aditya@illinois.edu",
-                        "university": "UIUC",
-                        "userDegree": "MCS",
-                        "phoneNumber": "9876543211"
-                    },
-                    "topic": {
-                        "topicId": 46,
-                        "user": {
-                            "userId": 1,
-                            "userName": "Aditya K",
-                            "email": "aditya@illinois.edu",
-                            "university": "UIUC",
-                            "userDegree": "MCS",
-                            "phoneNumber": "9876543211"
-                        },
-                        "topicName": "Time Complexity",
-                        "description": "Learn basics of time complexity",
-                        "creditPerHr": 10.0,
-                        "experienceLevel": 5.0,
-                        "overallRating": 4.5
-                    },
-                    "slotDate": "2022-12-11",
-                    "startTime": "12:00:00",
-                    "endTime": "13:00:00",
-                    "isBooked": true,
-                    "bookedByUser": {
-                        "userId": 9,
-                        "userName": "Anu N",
-                        "email": "anu@illinois.edu",
-                        "university": "UMich",
-                        "userDegree": "MSCS",
-                        "phoneNumber": "9987654321"
-                    }
-                },
-                {
-                    "slotId": 118,
-                    "user": {
-                        "userId": 1,
-                        "userName": "Aditya K",
-                        "email": "aditya@illinois.edu",
-                        "university": "UIUC",
-                        "userDegree": "MCS",
-                        "phoneNumber": "9876543211"
-                    },
-                    "topic": null,
-                    "slotDate": "2022-12-12",
-                    "startTime": "12:00:00",
-                    "endTime": "13:00:00",
-                    "isBooked": false,
-                    "bookedByUser": null
-                }
-            ]);
-            }, 2e3);
-          });
-    }
-
     function timeSlotValidator(slotTime) {
         var isBooked = false;
         const startTime = new Date(
@@ -218,9 +57,7 @@ function TopicDetailView() {
         );
         //alert(slotTime.getTime);
         const isValid = (slotTime.getTime() >= startTime.getTime()) && (slotTime.getTime() <= endTime.getTime());
-        //const Month = Number(slotTime.getMonth())+1
         const sDate = slotTime.getFullYear()+"-"+slotTime.getMonth()+"-"+slotTime.getDate()
-        //console.log(slotTimeDate.getTime());
 
         slots.map((slot) =>  {
             //alert()
@@ -242,7 +79,6 @@ function TopicDetailView() {
         );
         //console.log(slotTime.getHours(), isBooked)
         return (isValid && !isBooked)
-        //return isValid;
     }
 
     const handleScheduled = dateTime => {
@@ -263,7 +99,6 @@ function TopicDetailView() {
         updatedSlot.bookedByUser = bookedURL;
 
         axios.post(slotURL, updatedSlot)
-        //fakeRequest(dateTime)
           .then(json => {
             setScheduleErr('');
             setIsScheduled(true);
@@ -283,28 +118,18 @@ function TopicDetailView() {
 
     function getTopicDetails() {
         var topicId = String(Number(id));
-        //alert(client);
 
         api.getTopicUser(topicId)
-        //mockAnswer()
         .then(res => {
-            //alert("Got"+res)
             console.log(res)
             topic.topicName = res.data.topicName
             topic.description = res.data.description
             topic.creditPerHr = res.data.creditPerHr
             topic.overallRating = res.data.overallRating
             topic.user = res.data.user
-            /*topic.topicName = res.topicName
-            topic.description = res.description
-            topic.creditPerHr = res.creditPerHr
-            topic.overallRating = res.overallRating
-            topic.user = res.user*/
-            //alert(topic.description);
             setTopicDetails(topic)
 
             api.getUserSlots(res.data.user.userId)
-            //mockSlot()
             .then(result => {
                 console.log(result)
                 let res = result.data
@@ -316,7 +141,6 @@ function TopicDetailView() {
                     slot.slotDate = val.slotDate;
                     slot.startTime = val.startTime;
                     slot.isBooked = val.isBooked;
-                    //alert(val.slotId)
                     slots.push(slot);
                 })
                 setSlot(slots)

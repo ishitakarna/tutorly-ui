@@ -50,19 +50,6 @@ function TeachView() {
       })
     }
 
-    function fakeRequest(data) {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            // Uncomment below to trigger error:
-            //return reject('Error: KABOOM!');
-            resolve({
-              status: 'ok',
-              scheduled: data
-            });
-          }, 2e3);
-        });
-      }
-
     function timeSlotValidator(slotTime) {
         const startTime = new Date(
             slotTime.getFullYear(),
@@ -88,19 +75,15 @@ function TeachView() {
     const handleScheduled = dateTime => {
         setIsScheduling(true);
         setScheduleErr('');
-        //alert(dateTime)
 
         let slotURL = `${api.api_url}userSlots`
         let userURL = `${api.api_url}users/${userID}`
-        //let topicURL = `${api.api_url}topics/${active.topicId}`
         let userSlot = {}
-        userSlot.slotDate = dateTime.getFullYear()+"-"+dateTime.getMonth()+"-"+dateTime.getDate();
+        userSlot.slotDate = dateTime.getFullYear()+"-"+(Number(dateTime.getMonth())+1)+"-"+dateTime.getDate();
         userSlot.startTime = dateTime.getHours()+":00:00";
-        userSlot.endTime = dateTime.getHours()+1+":00:00";
+        userSlot.endTime = dateTime.getHours()+":00:00";
         userSlot.isBooked = false;
         userSlot.user = userURL;
-        //userSlot.topic = topicURL;
-        //alert(userSlot.slotDate+""userSlot.startTime)
 
         axios.post(slotURL, userSlot)
           .then(response => {
@@ -114,7 +97,7 @@ function TeachView() {
           .finally(() => {
             setIsScheduling(false);
             setActive(false);
-            alert("Posted");
+            //alert("Posted");
           });
       }
 
