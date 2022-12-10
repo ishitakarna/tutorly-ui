@@ -1,23 +1,22 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import { useState, useEffect } from "react";
 import Api from "../../api";
 import { ListGroup } from "react-bootstrap";
 import TopicCards from "./TopicCards";
 import './LearnView.css'
-import {useNavigate,Link} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import GroupCards from "./GroupCards";
 
-//const TopicCards = lazy(() => import('./TopicCards'))
-
 function LearnView() {
-    const navigate = useNavigate()
-    const [email] = useState([]);
+
+    const navigate = useNavigate();
     useEffect(() => {
-    const items = localStorage.getItem('email');
-    if (!items) {
-    navigate('/fp/login');
+    const email = localStorage.getItem('email');
+    if (!email) {
+        navigate('/fp/login');
     }
     }, []);
+
     const [tags, setTags] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [filterCondition, setFilterCondition] = useState("");
