@@ -31,8 +31,10 @@ function NavBar() {
   const logout = () => {
     const auth = getAuth();
     signOut(auth).then(() => {
+      localStorage.removeItem("email")
       // Sign-out successful.
     }).catch((error) => {
+      localStorage.removeItem("email")
       // An error happened.
     });
   }

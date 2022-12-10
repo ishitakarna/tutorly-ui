@@ -35,8 +35,6 @@ function LoginView() {
       gapi.load('client:auth2', initClient);});
 
   const onSuccess = (res) => {
-    console.log(res.profileObj.email)
-    localStorage.setItem("res", res);
     localStorage.setItem("email", res.profileObj.email);
     navigate('/fp/learn')};
 

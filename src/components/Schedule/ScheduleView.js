@@ -3,8 +3,17 @@ import { ListGroup, Table } from "react-bootstrap";
 import './ScheduleView.css'
 import { useState, useEffect } from "react";
 import Api from "../../api";
+import {useNavigate,Link} from 'react-router-dom';
 
 function ScheduleView() {
+    const navigate = useNavigate()
+    const [email] = useState([]);
+    useEffect(() => {
+    const items = localStorage.getItem('email');
+    if (!items) {
+    navigate('/fp/login');
+    }
+    }, []);
     const [activeBookings, setActiveBookings] = useState([]);
     const [pastBookings, setPastBookings] = useState([]);
     const [isLoading, setLoading] = useState(true);

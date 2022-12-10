@@ -26,18 +26,20 @@ export default function RegisterView() {
       if (password !== confirmPassword) {
         isValid = false
         alert('Passwords does not match')
-        setError('Passwords does not match')}}
+        setError('Passwords does not match')      
+      }}
     return isValid} 
   const register = e => {
     e.preventDefault()
     setError('')
     if(validatePassword()) {
       createUserWithEmailAndPassword(auth, email, password).then((res) => {
-              console.log(res.user);}).catch(err => setError(err.message))}
+      localStorage.setItem("email",email);
+      console.log(res.user);}).catch(err => setError(err.message))}
       setEmail('')
       setPassword('')
       setConfirmPassword('');
-      <Link to="/fp/learn"></Link>}
+      navigate("/fp/UserDetailView")}
 
   const loginPage = () => {
     navigate("/fp/login")}
