@@ -21,22 +21,28 @@ export default class Api {
         return this.client;
     };
 
-    // Used in learn default page
+    // USER
+    getUserByEmail = (userEmail) => {
+        return this.init().get(`${this.api_url}users/search/findByEmail`, { params: {email : userEmail} })
+    }
+
+    // LEARN
     getTags = () => {
         return this.init().get(`${this.api_url}v2/tags`);
     };
 
-    // getTopicsForTag = (tagId) => {
-    //     return this.init().get(`${this.api_url}tags/${tagId}/topics`)
-    // }
+    // TEACH, SCHEDULE
+    getUserSlots = (id) => {
+        return this.init().get(`${this.api_url}v2/userSlots/${id}`);
+    };
+
+    //SCHEDULE 
+    getUserBookedLearnSlots = (id) => {
+        return this.init().get(`${this.api_url}v2/userSlots/booked/${id}`);
+    }
 
     getUserForTopic = (topicId) => {
         return this.init().get(`${this.api_url}topics/${topicId}/user`)
-    }
-
-    // Used in schedule page
-    getBookedSlots = () => {
-        return this.init().get(`${this.api_url}userSlots`)
     }
 
     getTopicDetails = (id) => {
@@ -51,18 +57,11 @@ export default class Api {
         return this.init().get(`${this.api_url}v2/topics/${id}`);
     };
 
-    getUserSlots = (id) => {
-        return this.init().get(`${this.api_url}v2/userSlots/${id}`);
-    };
+    
 
     getUserTopics = (id) => {
         return this.init().get(`${this.api_url}v2/topics/user/${id}`);
     };
-
-    // User Details By Email 
-    getUserByEmail = (userEmail) => {
-        return this.init().get(`${this.api_url}users/search/findByEmail`, { params: {email : userEmail} })
-    }
 
     getTopicsByUserId = (userId) => {
         return this.init().get(`${this.api_url}topics/search/findByUserId`, { params: {userId : userId} })
@@ -75,4 +74,12 @@ export default class Api {
     getAvailableSlots = (id) => {
         return this.init().get(`${this.api_url}v2/userSlots/available/${id}`);
     }
+
+    // getTopicsForTag = (tagId) => {
+    //     return this.init().get(`${this.api_url}tags/${tagId}/topics`)
+    // }
+
+    // getBookedSlots = () => {
+    //     return this.init().get(`${this.api_url}userSlots`)
+    // }
 }

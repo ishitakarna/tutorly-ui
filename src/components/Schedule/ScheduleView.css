@@ -11,7 +11,18 @@
     margin-top: 2rem;
 }
 
-.schedule-container hr {
-    height: 2px;
-    margin-top: 0.5rem;
+.schedule-tab-container {
+    overflow-y: scroll;
+    height: 235px;
+}
+
+.schedule-tab-container thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: white;
+}
+
+.schedule-container th {
+    font-weight: bold;
 }
