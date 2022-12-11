@@ -91,7 +91,7 @@ function LoginView() {
             <div className="text-white px-3 text-center py-4 p-md-5 mx-md-4">
               <h2 className="mb-4">New Here?</h2>
 
-              <h1 style={{ paddingTop: '1rem', margin: 'auto 0', fontWeight: 'normal' }}>We do the following{' '}
+              <h2 style={{ paddingTop: '1rem', margin: 'auto 0', fontWeight: 'normal' }}>We do the following{' '}
               <span style={{ color: 'red', fontWeight: 'bold' }}>
                 <Typewriter
                   words={['Teach', 'Learn', 'Collab', 'Repeat!']}
@@ -103,9 +103,11 @@ function LoginView() {
                   delaySpeed={1000}
                   onLoopDone={0}/>
               </span>
-              </h1>
-
-              <p className="small mb-3">Sign up and step into the world of teaching and learning!</p>
+              </h2>
+              <br/>
+              <br/>
+              <br/>
+              <p className="small mb-3"><h3>Sign up and step into the world of teaching and learning!</h3></p>
               <MDBBtn className="mb-4 w-100 gradient-custom-3" onClick={registerpage}>Sign Up</MDBBtn>
               </div>
             </div>
