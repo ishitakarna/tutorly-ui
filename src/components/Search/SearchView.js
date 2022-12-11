@@ -18,22 +18,25 @@ function SearchView() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(searchText)
         getTags();
     }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
-        console.log(searchText)
-        console.log("search values changed")
-        console.log(searchTopicResults)
         const handleSort = (order, column) => {
-            let sorted = [];
+            let sorted = []
             if(order === "Ascending")
-                sorted = searchTopicResults.sort((a, b) => parseInt(a[column]) - parseInt(b[column]));
+                sorted = searchTopicResults.sort(
+                    (a, b) => 
+                        (a[column] === null ? 0 : parseFloat(a[column])) - 
+                        (b[column] === null ? 0 : parseFloat(b[column])))
             else 
-                sorted = searchTopicResults.sort((a, b) => parseInt(b[column]) - parseInt(a[column]));
+                sorted = searchTopicResults.sort(
+                    (a, b) => 
+                    (b[column] === null ? 0 : parseFloat(b[column])) - 
+                    (a[column] === null ? 0 : parseFloat(a[column])))
             setSortedResults([...sorted]);
         }
+
         if(sortOption.length !== 0)
             handleSort(sortType, sortOption);
     }, [searchTopicResults, sortOption, sortType]);
@@ -41,6 +44,8 @@ function SearchView() {
     function getTags() {
         let searchResults = []
         let topicIds = {}
+        setSortOption("")
+        setSortType("Ascending")
         api.getTags().then(result => {
             let data = result.data
             Object.keys(data).forEach(function(key) {
@@ -53,7 +58,6 @@ function SearchView() {
                         if(topicIds[topicInfo.topicId] === undefined || topicIds[topicInfo.topicId] !== true) {
                             searchResults.push(topicInfo)
                             topicIds[topicInfo.topicId] = true
-                            console.log(topicInfo)
                         }
                     }
                 })
@@ -129,7 +133,7 @@ function SearchView() {
                                         edit={false}
                                         color2={'#FFB81C'}/>
                             <p>{topic.description}</p>
-                            <p> Experience: {topic.experienceLevel}</p>
+                            <p> Tutor experience: <span style={{fontWeight: "bold"}}>{topic.experienceLevel}</span></p>
                             </Card.Body>
                         </Card>
                     </ListGroup>
