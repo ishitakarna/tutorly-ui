@@ -3,7 +3,7 @@ import axios from "axios";
 export default class Api {
     constructor() {
         this.client = null;
-        this.api_url = "https://llaminators-fp-service.onrender.com/";
+        this.api_url = "http://20.163.248.78:8083/";
     }
 
     init = () => {
@@ -34,6 +34,7 @@ export default class Api {
         return this.init().get(`${this.api_url}topics/${topicId}/user`)
     }
 
+    // Used in schedule page
     getBookedSlots = () => {
         return this.init().get(`${this.api_url}userSlots`)
     }

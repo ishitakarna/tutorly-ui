@@ -1,0 +1,50 @@
+.search-vertical-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.sorting-div {
+    width: 20%;
+}
+
+.sorting-div h1 {
+    margin-top: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.results-div {
+    width: 80%;
+    margin: 15px;
+}
+
+.results-div p {
+    margin: 2px;
+    text-align: left;
+    font-size: 20px;
+}
+
+.search-card {
+    margin: 10px;
+    text-align: left;
+}
+
+.search-card:hover {
+    cursor: pointer;
+}
+
+.search-card-title {
+    font-size: x-large;
+    color: #3B71CA;
+    font-weight: bold;
+}
+
+.radio {
+    font-size: 18px;
+    text-align: center;
+}
+
+.radio span {
+    margin-left: 5px;
+}
