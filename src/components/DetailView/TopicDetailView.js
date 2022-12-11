@@ -47,10 +47,13 @@ function TopicDetailView() {
         if (!email) {
             navigate('/fp/login');
         } else {
-            const userId = api.getUserByEmail(email);
-            setCurrentUser(userId);
-            console.log(currentUser);
-            getTopicDetails();
+            api.getUserByEmail(email)
+            .then(result => {
+              setCurrentUser(result.data.userId);
+              getTopicDetails();
+            }).catch(err => {
+              console.log(err);
+            })
         }
     },[]);
 

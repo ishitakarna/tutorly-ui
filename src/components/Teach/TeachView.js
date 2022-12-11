@@ -49,10 +49,14 @@ function TeachView() {
         if (!email) {
             navigate('/fp/login');
         } else {
-            const userId = api.getUserByEmail(email);
-            setCurrentUser(userId);
-            getUserTopics();
-            getTags();
+            api.getUserByEmail(email)
+            .then(result => {
+              setCurrentUser(result.data.userId);
+              getUserTopics();
+              getTags();
+            }).catch(err => {
+              console.log(err);
+            })
         }
     },[]);
 
