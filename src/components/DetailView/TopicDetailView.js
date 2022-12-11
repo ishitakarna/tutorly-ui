@@ -18,19 +18,16 @@ import {
     MDBCol,
     MDBBtn
   } from 'mdb-react-ui-kit';
+import ReactStars from 'react-stars'
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 import {useNavigate} from 'react-router-dom';
 
 function TopicDetailView() {
-    const navigate = useNavigate();
-    useEffect(() => {
-    const email = localStorage.getItem('email');
-    if (!email) {
-        navigate('/fp/login');
-    }
-    }, []);
+    
     let { id } = useParams();
     const api = new Api();
+    const navigate = useNavigate();
+    const [currentUser, setCurrentUser] = useState('');
     const [topic, setTopicDetails] = useState({
         topicName : '',
         description : '',
@@ -45,8 +42,54 @@ function TopicDetailView() {
     const [scheduleErr, setScheduleErr] = useState('');
     const [slots, setSlot] = useState('');
 
+    useEffect(() => {
+        const email = localStorage.getItem('email');
+        if (!email) {
+            navigate('/fp/login');
+        } else {
+            const userId = api.getUserByEmail(email);
+            setCurrentUser(userId);
+            console.log(currentUser);
+            getTopicDetails();
+        }
+    },[]);
+
+    function getTopicDetails() {
+        var topicId = id;
+        console.log(String(id))
+
+        api.getTopicUser(topicId)
+        .then(res => {
+            console.log(res)
+            topic.topicName = res.data.topicName
+            topic.description = res.data.description
+            topic.creditPerHr = res.data.creditPerHr
+            topic.overallRating = res.data.overallRating
+            topic.user = res.data.user
+            setTopicDetails(topic)
+
+            api.getAvailableSlots(res.data.user.userId)
+            .then(result => {
+                console.log(result)
+                let res = result.data
+                let slots = []
+                Object.keys(res).forEach(function(key) {
+                    let slot = {}
+                    let val = res[key]
+                    slot.slotId = val.slotId;
+                    slot.slotDate = val.slotDate;
+                    slot.startTime = val.startTime;
+                    slot.isBooked = val.isBooked;
+                    slots.push(slot);
+                })
+                setSlot(slots)
+            })
+            setLoading(false)
+        })
+    }
+
     function timeSlotValidator(slotTime) {
-        var isBooked = false;
+        var isAvailable = false;
         const startTime = new Date(
             slotTime.getFullYear(),
             slotTime.getMonth(),
@@ -68,43 +111,52 @@ function TopicDetailView() {
         const sDate = slotTime.getFullYear()+"-"+slotTime.getMonth()+"-"+slotTime.getDate()
 
         slots.map((slot) =>  {
-            //alert()
             //console.log(slot.slotDate)
-            //console.log(slot.slotDate === slotTimeDate)
             const mDate = slot.slotDate.slice(0,4)+"-"+(Number(slot.slotDate.slice(5,7))-1)+"-"+slot.slotDate.slice(8);
-            //console.log(sDate === mDate);
             if(sDate === mDate){
                 //console.log(sDate, mDate, slot.startTime, (slotTime.getHours()+":00:00"))
                 if(slot.startTime === (slotTime.getHours()+":00:00")) {
-                    console.log(slot.startTime === (slotTime.getHours()+":00:00"))
-                    console.log(slot.isBooked === true)
-                    if(slot.isBooked === true) {
-                        isBooked = true;
-                    }
+                    //console.log(slot.startTime === (slotTime.getHours()+":00:00"))
+                    isAvailable = true;
                 }   
             }
-        }
-        );
-        //console.log(slotTime.getHours(), isBooked)
-        return (isValid && !isBooked)
+        });
+        return (isValid && isAvailable)
     }
 
     const handleScheduled = dateTime => {
         setIsScheduling(true);
         setScheduleErr('');
-        const bookedUserID = 2;
+        //const bookedUserID = 5;
+        var slotId = 0;
+        const bookedUserID = currentUser;
         let slotURL = `${api.api_url}userSlots`
         let userURL = `${api.api_url}users/${topic.user.userId}`
         let topicURL = `${api.api_url}topics/${id}`
         let bookedURL = `${api.api_url}users/${bookedUserID}`
         let updatedSlot = {}
-        updatedSlot.slotDate = dateTime.getFullYear()+"-"+dateTime.getMonth()+"-"+dateTime.getDate();
+        updatedSlot.slotDate = dateTime.getFullYear()+"-"+(Number(dateTime.getMonth())+1)+"-"+dateTime.getDate();
         updatedSlot.startTime = dateTime.getHours()+":00:00";
         updatedSlot.endTime = dateTime.getHours()+1+":00:00";
         updatedSlot.isBooked = true;
         updatedSlot.user = userURL;
         updatedSlot.topic = topicURL;
         updatedSlot.bookedByUser = bookedURL;
+
+        slots.map((slot) =>  {
+            //console.log(slot.slotDate)
+            const mDate = slot.slotDate.slice(0,4)+"-"+(Number(slot.slotDate.slice(5,7))-1)+"-"+slot.slotDate.slice(8);
+            if(updatedSlot.slotDate === mDate){
+                //console.log(sDate, mDate, slot.startTime, (slotTime.getHours()+":00:00"))
+                if(slot.startTime === updatedSlot.startTime) {
+                    //console.log(slot.startTime === (slotTime.getHours()+":00:00"))
+                    slotId = slot.slotId;
+                    console.log(slotId)
+                }   
+            }
+        });
+        updatedSlot.slotId = slotId;
+        console.log(updatedSlot);
 
         axios.post(slotURL, updatedSlot)
           .then(json => {
@@ -118,43 +170,6 @@ function TopicDetailView() {
           .finally(() => {
             setIsScheduling(false);
           });
-        }
-
-    useEffect(() => {
-        getTopicDetails();
-    },[]);
-
-    function getTopicDetails() {
-        var topicId = String(Number(id));
-
-        api.getTopicUser(topicId)
-        .then(res => {
-            console.log(res)
-            topic.topicName = res.data.topicName
-            topic.description = res.data.description
-            topic.creditPerHr = res.data.creditPerHr
-            topic.overallRating = res.data.overallRating
-            topic.user = res.data.user
-            setTopicDetails(topic)
-
-            api.getUserSlots(res.data.user.userId)
-            .then(result => {
-                console.log(result)
-                let res = result.data
-                let slots = []
-                Object.keys(res).forEach(function(key) {
-                    let slot = {}
-                    let val = res[key]
-                    slot.slotId = val.slotId;
-                    slot.slotDate = val.slotDate;
-                    slot.startTime = val.startTime;
-                    slot.isBooked = val.isBooked;
-                    slots.push(slot);
-                })
-                setSlot(slots)
-            })
-            setLoading(false)
-        })
     }
 
     if(isLoading) {
@@ -191,7 +206,12 @@ function TopicDetailView() {
                     borderColor: 'grey',
                     height: '2px',
                     }}/>
-                <MDBCardText className="MDBCardText">{topic.overallRating}</MDBCardText>
+                <ReactStars
+                    count={5}
+                    value={topic.overallRating}
+                    size={20}
+                    edit={false}
+                    color2={'#0000FF'}/>
             </MDBCardBody>
             </MDBCol>
             <MDBCol sm='6'>
