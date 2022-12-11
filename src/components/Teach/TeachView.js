@@ -157,7 +157,7 @@ function TeachView() {
           {topics.slice(0, 5).map((topic) =>
             <ListGroup className="listrow" key={topic.topicId}>
                 <ListGroup.Item onClick={() => setActive(topic)}
-                  className={`list-item ${active == topic && "active"}`}>
+                  className={`list-item ${active === topic && "active"}`}>
                     {topic.topicName}
                 </ListGroup.Item>
             </ListGroup>

@@ -3,7 +3,8 @@ import axios from "axios";
 export default class Api {
     constructor() {
         this.client = null;
-        this.api_url = "https://llaminators-fp-service.onrender.com/";
+        // this.api_url = "https://llaminators-fp-service.onrender.com/";
+        this.api_url = "http://20.163.248.78:8083/"
     }
 
     init = () => {
@@ -56,4 +57,16 @@ export default class Api {
     getUserTopics = (id) => {
         return this.init().get(`${this.api_url}v2/topics/user/${id}`);
     };
+
+    getUserByEmail = (userEmail) => {
+        return this.init().get(`${this.api_url}users/search/findByEmail`, { params: {email : userEmail} })
+    }
+
+    getTopicsByUserId = (userId) => {
+        return this.init().get(`${this.api_url}topics/search/findByUserId`, { params: {userId : userId} })
+    }
+
+    getWalletByUserId = (userId) => {
+        return this.init().get(`${this.api_url}wallets/search/findByUser_UserId`, { params: {userId : userId} })
+    }
 }
