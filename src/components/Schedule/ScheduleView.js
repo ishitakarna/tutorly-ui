@@ -1,9 +1,17 @@
 import React from "react";
-import { Tabs, Tab, Table } from "react-bootstrap";
+import { Tabs, Tab, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import './ScheduleView.css'
 import { useState, useEffect } from "react";
 import Api from "../../api";
 import { useNavigate } from 'react-router-dom';
+import FeedbackModal from "./FeedbackModal";
+import ModalView from "./ModalView"
+
+const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      Provide feedback on your session
+    </Tooltip>
+);
 
 function ScheduleView() {
     const navigate = useNavigate();
@@ -18,6 +26,9 @@ function ScheduleView() {
     const [pastLearnBookings, setPastLearnBookings] = useState([]);
 
     const [isLoading, setLoading] = useState(true);
+
+    const [feedbackModalShow, setFeedbackModalShow] = useState(false);
+    const [clickedInstance, setClickedInstance] = useState({})
 
     useEffect(() => {
         console.log(email)
@@ -68,10 +79,14 @@ function ScheduleView() {
             slot.startTime = val.startTime
             slot.endTime = val.endTime
             slot.topic = val.topic.topicName
+            slot.tutorName = val.user.userName
+            slot.tutor = val.user
             if(isPast(slot.slotDate))
                 learnSlotsPast.push(slot)
-            else
+            else {
                 learnSlotsActive.push(slot)
+                learnSlotsPast.push(slot)
+            }
         })
 
         setActiveLearnBookings(learnSlotsActive)
@@ -84,6 +99,11 @@ function ScheduleView() {
         if(date < today)
             return true
         return false
+    }
+
+    function handlePastLearnClick(slot) {
+        setClickedInstance(slot)
+        setFeedbackModalShow(true)
     }
 
     if(isLoading) {
@@ -197,6 +217,11 @@ function ScheduleView() {
                 </Tab>
                 <Tab eventKey="past" title="Past">
                     <div className="schedule-tab-container">
+                    <OverlayTrigger
+                                            placement="top"
+                                            delay={{ show: 250, hide: 400 }}
+                                            overlay={renderTooltip}
+                                        >
                     <Table striped bordered hover>
                         <thead>
                         <tr>
@@ -210,7 +235,7 @@ function ScheduleView() {
                         
                         <tbody>
                             {pastLearnBookings.map(slot =>
-                                    <tr key={slot.slotId}>
+                                    <tr key={slot.slotId} onClick={() => handlePastLearnClick(slot)}>
                                         <td>{slot.slotId}</td>
                                         <td>{slot.topic}</td>
                                         <td>{slot.slotDate}</td>
@@ -220,9 +245,18 @@ function ScheduleView() {
                             )}
                         </tbody>
                     </Table>
+                    </OverlayTrigger>
                     </div>
                 </Tab>
             </Tabs>
+            <ModalView
+                show={feedbackModalShow}
+                onHide={() => setFeedbackModalShow(false)}
+                modalheading = "Feedback"
+                modaldata = {<FeedbackModal 
+                    slot = {clickedInstance} 
+                    onHide={() => setFeedbackModalShow(false)}/>}
+            />
         </div>
         </>
     )
