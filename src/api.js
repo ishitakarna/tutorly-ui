@@ -59,6 +59,7 @@ export default class Api {
         return this.init().get(`${this.api_url}v2/topics/user/${id}`);
     };
 
+    // User Details By Email 
     getUserByEmail = (userEmail) => {
         return this.init().get(`${this.api_url}users/search/findByEmail`, { params: {email : userEmail} })
     }
