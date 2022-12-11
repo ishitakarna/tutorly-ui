@@ -32,7 +32,7 @@ function ScheduleView() {
             let data = result.data._embedded.userSlots
             Object.keys(data).forEach(function(key) {
                 let val = data[key]
-                if(val.isBooked == true) {
+                if(val.isBooked === true) {
                     let slot = {}
                     slot.slotId = val.slotId
                     slot.slotDate = val.slotDate
