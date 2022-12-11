@@ -72,11 +72,11 @@ export default function RegisterView() {
       <MDBCol col='6' className="mb-5">
         <div className="d-flex flex-column  justify-content-center gradient-custom-2 h-100 mb-4">
           <div className="text-white text-center px-3 py-4 p-md-5 mx-md-4">
-            <img src='https://images.pexels.com/photos/3863788/pexels-photo-3863788.jpeg' style={{width: '400px'}} alt="logo" />
             <p></p>
-            <h4 className="mb-4">Welcome Back!</h4>
-            <p className="small mb-0">Welcome back into a world of teaching and learning!</p>
+            <h2 className="mb-4">Hello There!</h2>
+            <p className="small mb-0"><h2>Welcome back into a world of teaching and learning!</h2></p>
             <br/>
+            <br/><br/><br/><br/>
             <MDBBtn className="mb-4 w-100 gradient-custom-3" onClick={loginPage}>Sign In</MDBBtn>
           </div>
         </div>
