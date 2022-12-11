@@ -48,13 +48,13 @@ function App() {
 function LayoutsWithNavbar() {
 
   const navigate = useNavigate();
-  useEffect(() => {
+  /*useEffect(() => {
     const email = localStorage.getItem("email");
     if (!email) {
       navigate('/fp/login');
       return;
     }
-  }, []);
+  }, []);*/
 
   return (
     <>
