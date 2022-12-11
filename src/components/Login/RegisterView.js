@@ -1,8 +1,10 @@
 import {auth} from './firebase'
+import {useState, useEffect} from 'react'
+import {signInWithGoogle} from './firebase'
 import {createUserWithEmailAndPassword} from 'firebase/auth'
-import {useState} from 'react'
 import {useNavigate,Link} from 'react-router-dom'
 import { GoogleLogin } from 'react-google-login';
+import { gapi } from 'gapi-script';
 import Form from 'react-bootstrap/Form';
 import {
     MDBBtn,
@@ -20,6 +22,21 @@ export default function RegisterView() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const clientId = '395638822106-cb794ss3le52s150a2j0er5u45d1um6t.apps.googleusercontent.com';
+  useEffect(() => {
+    const initClient = () => {
+      gapi.client.init({
+        clientId: clientId,
+        scope: ''});};
+      gapi.load('client:auth2', initClient);});
+
+  const onSuccess = (res) => {
+    localStorage.setItem("email", res.profileObj.email);
+    navigate('/fp/userDetails')};
+
+  const onFailure = (err) => {
+    alert("Login Failed")};
+
   const validatePassword = () => {
     let isValid = true
     if (password !== '' && confirmPassword !== ''){
@@ -80,9 +97,14 @@ export default function RegisterView() {
             <MDBBtn className="mb-4 w-100 gradient-custom-3" type='submit' onClick={register}>Sign Up</MDBBtn>
               <p>OR</p>
               <GoogleLogin
-                buttonText="Sign Up with Google"
-                cookiePolicy={'single_host_origin'}
-                isSignedIn={true}/>
+                 clientId={clientId}
+                 buttonText="Sign Up with Google"
+                 onClick={signInWithGoogle}
+                 onAutoLoadFinished={true}
+                 onSuccess={onSuccess}
+                 onFailure={onFailure}
+                 cookiePolicy={'single_host_origin'}
+                 isSignedIn={true}/>
           </div> 
         </Form>    
         </div>

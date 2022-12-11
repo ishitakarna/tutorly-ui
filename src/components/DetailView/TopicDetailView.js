@@ -19,8 +19,16 @@ import {
     MDBBtn
   } from 'mdb-react-ui-kit';
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
+import {useNavigate} from 'react-router-dom';
 
 function TopicDetailView() {
+    const navigate = useNavigate();
+    useEffect(() => {
+    const email = localStorage.getItem('email');
+    if (!email) {
+        navigate('/fp/login');
+    }
+    }, []);
     let { id } = useParams();
     const api = new Api();
     const [topic, setTopicDetails] = useState({

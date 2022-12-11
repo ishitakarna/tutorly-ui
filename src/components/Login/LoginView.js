@@ -25,8 +25,6 @@ function LoginView() {
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
   const clientId = '648126638686-jl6on0bbfsbpatfro1d42guv0596fj7o.apps.googleusercontent.com';
-  
-
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
@@ -48,7 +46,6 @@ function LoginView() {
     navigate('/fp/learn')}).catch(err => console.log(err.message))}
 
     const registerpage = () => {
-      // <Link to="/fp/register"></Link>
       navigate("/fp/register")
     }
 
@@ -98,7 +95,7 @@ function LoginView() {
               <span style={{ color: 'red', fontWeight: 'bold' }}>
                 <Typewriter
                   words={['Teach', 'Learn', 'Collab', 'Repeat!']}
-                  loop={60}
+                  loop={100}
                   cursor
                   cursorStyle='_'
                   typeSpeed={70}

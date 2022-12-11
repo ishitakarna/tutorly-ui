@@ -1,6 +1,7 @@
 import React from "react";
 import Api from "../../api";
 import axios from "axios";
+import {useNavigate} from 'react-router-dom';
 import {
     MDBCard,
     MDBCardBody,
@@ -20,10 +21,16 @@ import {
   } from 'mdb-react-ui-kit';
 import { useState, useEffect } from "react";
 import { ListGroup } from "react-bootstrap";
-//import AddCourse from "./AddCourse";
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 
 function TeachView() {
+    const navigate = useNavigate();
+    useEffect(() => {
+    const email = localStorage.getItem('email');
+    if (!email) {
+        navigate('/fp/login');
+    }
+    }, []);
     const [isScheduling, setIsScheduling] = useState(false);
     const [isScheduled, setIsScheduled] = useState(false);
     const [scheduleErr, setScheduleErr] = useState('');

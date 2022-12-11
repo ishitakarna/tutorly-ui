@@ -16,7 +16,13 @@ import {
 from 'mdb-react-ui-kit';
 
 function UserDetailView() {
-
+  const navigate = useNavigate();
+  useEffect(() => {
+  const email = localStorage.getItem('email');
+  if (!email) {
+      navigate('/fp/login');
+  }
+  }, []);
   const api = new Api();
   const ref = useRef(null);
   const [formValue, setFormValue] = useState({
@@ -29,7 +35,6 @@ function UserDetailView() {
     checked: false
   });
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate()
 
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
@@ -92,7 +97,7 @@ function UserDetailView() {
 
         //alert(Object.keys(errors).length)
         validate();
-        alert(Object.keys(errors).length)
+        //alert(Object.keys(errors).length)
         var newUser = {};
         let userURL = `${api.api_url}users`
 
