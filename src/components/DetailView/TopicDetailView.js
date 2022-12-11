@@ -27,7 +27,7 @@ function TopicDetailView() {
     let { id } = useParams();
     const api = new Api();
     const navigate = useNavigate();
-    const [currentUser, setCurrentUser] = useState('');
+    const [currentUser, setCurrentUser] = useState(0);
     const [topic, setTopicDetails] = useState({
         topicName : '',
         description : '',
