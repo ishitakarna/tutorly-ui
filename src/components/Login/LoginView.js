@@ -24,7 +24,7 @@ function LoginView() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
-  const clientId = '648126638686-jl6on0bbfsbpatfro1d42guv0596fj7o.apps.googleusercontent.com';
+  const clientId = '395638822106-cb794ss3le52s150a2j0er5u45d1um6t.apps.googleusercontent.com';
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
