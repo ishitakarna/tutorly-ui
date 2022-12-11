@@ -19,33 +19,41 @@ import {
     MDBRow,
     MDBCol
   } from 'mdb-react-ui-kit';
+import Select from 'react-select'
 import { useState, useEffect } from "react";
 import { ListGroup } from "react-bootstrap";
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 
 function TeachView() {
+    const api = new Api();
     const navigate = useNavigate();
-    useEffect(() => {
-    const email = localStorage.getItem('email');
-    if (!email) {
-        navigate('/fp/login');
-    }
-    }, []);
+    const [currentUser, setCurrentUser] = useState('');
+    
     const [isScheduling, setIsScheduling] = useState(false);
     const [isScheduled, setIsScheduled] = useState(false);
     const [scheduleErr, setScheduleErr] = useState('');
 
     const [topics, setTopics] = useState([]);
+    const [tags, setTags] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [active, setActive] = useState(null);
     const [basicModal, setBasicModal] = useState(false);
     const toggleShow = () => setBasicModal(!basicModal);
     const [course, setCourse] = useState({});
-    const api = new Api();
-    var userID = 7;
+    const [tagIds, setTagIds] = useState([]); 
+    const [slots, setSlot] = useState('');
+    var userID = 4;
 
     useEffect(() => {
-      getUserTopics();
+        const email = localStorage.getItem('email');
+        if (!email) {
+            navigate('/fp/login');
+        } else {
+            const userId = api.getUserByEmail(email);
+            setCurrentUser(userId);
+            getUserTopics();
+            getTags();
+        }
     },[]);
 
     const chooseTopic = () => {
@@ -66,6 +74,38 @@ function TeachView() {
               topics.push(topic)
           })
           setTopics(topics)
+
+          api.getUserSlots(data[0].user.userId)
+            .then(result => {
+                console.log(result)
+                let res = result.data
+                let slots = []
+                Object.keys(res).forEach(function(key) {
+                    let slot = {}
+                    let val = res[key]
+                    slot.slotId = val.slotId;
+                    slot.slotDate = val.slotDate;
+                    slot.startTime = val.startTime;
+                    slot.isBooked = val.isBooked;
+                    slots.push(slot);
+                })
+                setSlot(slots)
+            })
+      })
+    }
+
+    function getTags() {
+      let tags = []
+      api.getTags().then(result => {
+          let data = result.data
+          Object.keys(data).forEach(function(key) {
+              let tag = {}
+              let val = data[key]
+              tag.value = val.tagId
+              tag.label = val.tagName
+              tags.push(tag)
+          })
+          setTags(tags)
           setLoading(false)
       })
     }
@@ -74,6 +114,11 @@ function TeachView() {
       setCourse({ ...course, [e.target.name]: e.target.value });
     };
 
+    const handleSelect = (e) => {
+      setTagIds(Array.isArray(e) ? e.map(x => x.value) : []);
+      //console.log(tagIds)
+    }
+
     function addCourse(){
       var newCourse = {}
 
@@ -81,18 +126,33 @@ function TeachView() {
       newCourse.description = course.desc;
       newCourse.creditPerHr = course.price;
       newCourse.experienceLevel = course.exp;
-      newCourse.overallRating = course.rate;
-      newCourse.user = `${api.api_url}users/${userID}`
+      newCourse.user = `${api.api_url}users/${currentUser}`
 
       const topicURL = `${api.api_url}topics`
+      const tagURL = `${api.api_url}v2/tags`
       axios.post(topicURL, newCourse)
-        .then((response)=> console.log(response))
-        .catch(error => console.log(error))
-        .finally(() => {toggleShow();
-          window.location.reload();})
+      .then((response)=> {
+        console.log("First post", response);
+        var tags = {}
+
+        tags.tagIds = tagIds;
+        tags.topicId = response.data.topicId;
+        axios.post(tagURL, tags)
+        .then(json => {
+          console.log(json);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      })
+      .catch(error => console.log(error))
+      .finally(() => {toggleShow();
+        window.location.reload();
+      })
     }
 
     function timeSlotValidator(slotTime) {
+        var isBooked = false;
         const startTime = new Date(
             slotTime.getFullYear(),
             slotTime.getMonth(),
@@ -111,7 +171,21 @@ function TeachView() {
         );
         //alert(slotTime.getTime);
         const isValid = (slotTime.getTime() >= startTime.getTime()) && (slotTime.getTime() <= endTime.getTime());
-        return isValid;
+        const sDate = slotTime.getFullYear()+"-"+slotTime.getMonth()+"-"+slotTime.getDate()
+
+        slots.map((slot) =>  {
+          const mDate = slot.slotDate.slice(0,4)+"-"+(Number(slot.slotDate.slice(5,7))-1)+"-"+slot.slotDate.slice(8);
+            if(sDate === mDate){
+                //console.log(sDate, mDate, slot.startTime, (slotTime.getHours()+":00:00"))
+                if(slot.startTime === (slotTime.getHours()+":00:00")) {
+                    if(slot.isBooked === true) {
+                        isBooked = true;
+                    }
+                }   
+            }
+        });
+        //console.log(slotTime.getHours(), isBooked)
+        return (isValid && !isBooked)
     }
 
     const handleScheduled = dateTime => {
@@ -119,7 +193,7 @@ function TeachView() {
         setScheduleErr('');
 
         let slotURL = `${api.api_url}userSlots`
-        let userURL = `${api.api_url}users/${userID}`
+        let userURL = `${api.api_url}users/${currentUser}`
         let userSlot = {}
         userSlot.slotDate = dateTime.getFullYear()+"-"+(Number(dateTime.getMonth())+1)+"-"+dateTime.getDate();
         userSlot.startTime = dateTime.getHours()+":00:00";
@@ -139,7 +213,6 @@ function TeachView() {
           .finally(() => {
             setIsScheduling(false);
             setActive(false);
-            //alert("Posted");
           });
       }
 
@@ -154,7 +227,7 @@ function TeachView() {
               borderColor: 'grey',
               height: '2px',
               }}/>
-          {topics.slice(0, 5).map((topic) =>
+          {topics.map((topic) =>
             <ListGroup className="listrow" key={topic.topicId}>
                 <ListGroup.Item onClick={() => setActive(topic)}
                   className={`list-item ${active === topic && "active"}`}>
@@ -183,6 +256,7 @@ function TeachView() {
                     name='desc'
                     onChange={onChange}
                     required/>
+                  <Select placeholder="Select Tags" isMulti options={tags} onChange={handleSelect}/> <br />
                   <MDBRow>
                     <MDBCol col='4'>
                       <MDBInput wrapperClass='mb-4' label='Price, $' id='form1' type='text'
@@ -192,14 +266,7 @@ function TeachView() {
                         required/>
                     </MDBCol>
                     <MDBCol col='4'>
-                      <MDBInput wrapperClass='mb-4' label='Rating' id='form2' type='text'
-                        value={course.rate}
-                        name='rate'
-                        onChange={onChange}
-                        required/>
-                    </MDBCol>
-                    <MDBCol col='4'>
-                      <MDBInput wrapperClass='mb-4' label='Experience' id='form2' type='text'
+                      <MDBInput wrapperClass='mb-4' label='Experience, Years' id='form2' type='text'
                         value={course.exp}
                         name='exp'
                         onChange={onChange}

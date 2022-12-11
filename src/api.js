@@ -70,4 +70,8 @@ export default class Api {
     getWalletByUserId = (userId) => {
         return this.init().get(`${this.api_url}wallets/search/findByUser_UserId`, { params: {userId : userId} })
     }
+
+    getAvailableSlots = (id) => {
+        return this.init().get(`${this.api_url}v2/userSlots/available/${id}`);
+    }
 }
