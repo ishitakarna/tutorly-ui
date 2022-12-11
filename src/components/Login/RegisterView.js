@@ -35,7 +35,7 @@ export default function RegisterView() {
     navigate('/fp/userDetails')};
 
   const onFailure = (err) => {
-    alert("Login Failed")};
+    alert("Sign Up Failed")};
 
   const validatePassword = () => {
     let isValid = true
