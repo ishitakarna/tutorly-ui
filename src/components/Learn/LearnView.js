@@ -33,15 +33,14 @@ function LearnView() {
 
     function getTags() {
         let tags = []
-        let topicLinks = []
         api.getTags().then(result => {
-            let data = result.data._embedded.tags
+            let data = result.data
             Object.keys(data).forEach(function(key) {
                 let tag = {}
                 let val = data[key]
                 tag.tagId = val.tagId
                 tag.tagName = val.tagName
-                topicLinks.push(val._links.topics.href)
+                tag.topics = val.topics
                 tags.push(tag)
             })
             setTags(tags)
@@ -51,7 +50,6 @@ function LearnView() {
     }
 
     function filterTags() {
-        console.log("Filter tags called")
         let filtered = tags.filter(tag => tag.tagName.includes(filterCondition));
         setFilteredTags(filtered)
     }
@@ -74,12 +72,10 @@ function LearnView() {
                 <ListGroup.Item className = "tag-container">{tag.tagName}</ListGroup.Item>
                 { (filterCondition === "") ? 
                     <div className = "topics-container">
-                        {/* <Suspense fallback={Loader}> */}
-                            <TopicCards tagId = {tag.tagId}/>
-                        {/* </Suspense> */}
+                        <TopicCards topics = {tag.topics}/>
                     </div> :
                     <div>
-                        <TopicCards tagId = {tag.tagId}/>
+                        <TopicCards topics = {tag.topics}/>
                     </div> 
                 }   
             </ListGroup>

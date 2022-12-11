@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './NavBar.css';
 import { Link } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
+import { useNavigate, generatePath } from 'react-router-dom';
 
 import {
   MDBContainer,
@@ -20,13 +21,22 @@ import {
   MDBInputGroup
 } from 'mdb-react-ui-kit';
 
+const useNavigateParams = () => {
+  const navigate = useNavigate();
+
+  return (url, params) => {
+    const path = generatePath(":url?:queryString", {
+      url,
+      queryString: params
+    });
+    navigate(path);
+  };
+};
+
 function NavBar() {
   const [showBasic, setShowBasic] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-
-  function handleSearch(e) {
-    console.log(searchValue);
-  }
+  const navigate = useNavigateParams();
 
   const logout = () => {
     const auth = getAuth();
@@ -37,6 +47,21 @@ function NavBar() {
       localStorage.removeItem("email")
       // An error happened.
     });
+  }
+
+  function handleSearch() {
+    if (searchValue !== "") {
+      navigate("/fp/results", `search_query=${searchValue}`);
+    } 
+    else {
+      alert("Please enter some search text");
+    }
+  }
+
+  function handleKeyPress(event) {
+    if(event.key === 'Enter'){
+      handleSearch()
+    }
   }
 
   return (
@@ -75,7 +100,9 @@ function NavBar() {
             <MDBNavbarItem id="nav-form">
               <MDBInputGroup tag="form" className='w-100' onSubmit={(e) => {e.preventDefault()}}>
                     <input className='form-control' placeholder="Search Topic" aria-label="Search Topic" type='Search' 
-                            value = {searchValue} onChange={(e) => setSearchValue(e.target.value)}/>
+                            value = {searchValue} 
+                            onChange={(e) => setSearchValue(e.target.value)} 
+                            onKeyDown={(e) => handleKeyPress(e)}/>
                     <MDBBtn outline color="primary" onClick={handleSearch}>Search</MDBBtn>
               </MDBInputGroup>
             </MDBNavbarItem>
