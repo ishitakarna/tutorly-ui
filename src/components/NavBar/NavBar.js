@@ -50,7 +50,7 @@ function NavBar() {
   }
 
   function handleSearch() {
-    if (searchValue != "") {
+    if (searchValue !== "") {
       navigate("/fp/results", `search_query=${searchValue}`);
     } 
     else {
