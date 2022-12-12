@@ -41,6 +41,11 @@ export default class Api {
         return this.init().get(`${this.api_url}v2/userSlots/booked/${id}`);
     }
 
+    //FEEDBACK
+    postUserFeedback = (body) => {
+        return this.init().post(`${this.api_url}ratings`, body)
+    }
+
     getUserForTopic = (topicId) => {
         return this.init().get(`${this.api_url}topics/${topicId}/user`)
     }
@@ -56,8 +61,6 @@ export default class Api {
     getTopicUser = (id) => {
         return this.init().get(`${this.api_url}v2/topics/${id}`);
     };
-
-    
 
     getUserTopics = (id) => {
         return this.init().get(`${this.api_url}v2/topics/user/${id}`);

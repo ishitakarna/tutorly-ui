@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, Tab, Table, Button } from "react-bootstrap";
+import { Tabs, Tab, Table, Button, Spinner } from "react-bootstrap";
 import './ScheduleView.css'
 import { useState, useEffect } from "react";
 import Api from "../../api";
@@ -73,8 +73,10 @@ function ScheduleView() {
             slot.startTime = val.startTime
             slot.endTime = val.endTime
             slot.topic = val.topic.topicName
+            slot.topicId = val.topic.topicId
             slot.tutorName = val.user.userName
-            slot.tutor = val.user
+            slot.tutorId = val.user.userId
+            slot.userId = val.bookedByUser.userId
             if(isPast(slot.slotDate))
                 learnSlotsPast.push(slot)
             else {
@@ -97,8 +99,10 @@ function ScheduleView() {
 
     if(isLoading) {
         return (
-            <div style={{textAlign: "center", padding: "10px" ,fontFamily: "Solway"}}>
-                <h1>Loading..</h1>
+            <div style={{textAlign: "center", padding: "100px" ,fontFamily: "Solway"}}>
+                <Spinner animation="border" variant="primary" role="status" style={{ width: "3rem", height: "3rem" }}>
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
             </div>
         ) 
     }

@@ -11,6 +11,7 @@ import {
 import {Rating} from "@mui/material";
 import './ProfileView.scss';
 import Api from "../../api";
+import { Spinner } from 'react-bootstrap';
 
 
 function ProfileView() {
@@ -53,8 +54,10 @@ function ProfileView() {
 
     if(isLoading) {
         return (
-            <div style={{textAlign: "center", padding: "10px" ,fontFamily: "Solway"}}>
-                <h1>Loading..</h1>
+            <div style={{textAlign: "center", padding: "100px" ,fontFamily: "Solway"}}>
+                <Spinner animation="border" variant="primary" role="status" style={{ width: "3rem", height: "3rem" }}>
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
             </div>
         ) 
     }

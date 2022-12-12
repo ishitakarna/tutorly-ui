@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import './SearchView.css'
-import { ListGroup, Card } from "react-bootstrap";
+import { ListGroup, Card, Spinner } from "react-bootstrap";
 import Api from "../../api";
 import { useState, useEffect } from "react";
 import ReactStars from 'react-stars'
@@ -12,8 +12,8 @@ function SearchView() {
     const [searchTopicResults, setSearchTopicResults] = useState([]);
     const [sortedResults, setSortedResults] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const [sortOption, setSortOption] = useState("");
-    const [sortType, setSortType] = useState("Ascending");
+    const [sortOption, setSortOption] = useState("overallRating");
+    const [sortType, setSortType] = useState("Descending");
     const api = new Api();
     const navigate = useNavigate();
 
@@ -44,8 +44,8 @@ function SearchView() {
     function getTags() {
         let searchResults = []
         let topicIds = {}
-        setSortOption("")
-        setSortType("Ascending")
+        setSortOption("overallRating")
+        setSortType("Descending")
         api.getTags().then(result => {
             let data = result.data
             Object.keys(data).forEach(function(key) {
@@ -117,10 +117,20 @@ function SearchView() {
             </div>
             <div className = "results-div">
             {isLoading ? 
-                <div style={{textAlign: "center", padding: "10px" , fontFamily: "Solway"}}>
-                    <h1>Loading..</h1>
+                <div style={{textAlign: "center", padding: "100px" ,fontFamily: "Solway"}}>
+                    <Spinner animation="border" variant="primary" role="status" style={{ width: "3rem", height: "3rem" }}>
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
                 </div> :
                 
+                sortedResults.length === 0 ?
+                <div className = "not-found-div">
+                    <img src="https://www.clarin.eu/sites/default/files/styles/medium/public/icon-services-fcs.png?itok=seug9Hqn"
+                        alt="search"/>
+                    <h2>Sorry, we couldn't find what you're looking for.</h2> 
+                    <h3>Try again</h3>
+                </div>
+                :
                 sortedResults.map((topic) =>
                     <ListGroup key={topic.topicId}>
                         <Card className = "search-card" onClick={() => navigate(`/fp/course/${topic.topicId}`)}>

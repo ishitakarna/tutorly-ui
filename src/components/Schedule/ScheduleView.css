@@ -13,7 +13,7 @@
 
 .schedule-tab-container {
     overflow-y: scroll;
-    height: 235px;
+    height: 200px;
 }
 
 .schedule-tab-container thead {
@@ -44,3 +44,12 @@
     background-color: lavender;
     color: black;
 }
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: orangered;
+}
+
+.nav-tabs .nav-link:hover{
+    color: gray
+}
+  
