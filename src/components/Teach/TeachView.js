@@ -225,7 +225,7 @@ function TeachView() {
         let userSlot = {}
         userSlot.slotDate = dateTime.getFullYear()+"-"+(Number(dateTime.getMonth())+1)+"-"+dateTime.getDate();
         userSlot.startTime = dateTime.getHours()+":00:00";
-        userSlot.endTime = dateTime.getHours()+":00:00";
+        userSlot.endTime = (Number(dateTime.getHours())+1)+":00:00";
         userSlot.isBooked = false;
         userSlot.user = userURL;
 
