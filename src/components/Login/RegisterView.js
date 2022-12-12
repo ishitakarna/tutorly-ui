@@ -57,7 +57,7 @@ export default function RegisterView() {
       setPassword('')
       setConfirmPassword('');
       navigate("/fp/userDetails")
-    }).catch(err => alert(err.message))}}
+    }).catch(err => alert("User email is already in use, Try logging in instead"))}}
 
   const loginPage = () => {
     navigate("/fp/login")}
