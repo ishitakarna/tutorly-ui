@@ -313,7 +313,7 @@ function TeachView() {
                             required/>
                         </MDBCol>
                         <MDBCol col='4'>
-                          <MDBInput wrapperClass='mb-4' label='Experience, Years' id='form2' type='text'
+                          <MDBInput wrapperClass='mb-4' label='Experience, Months' id='form2' type='text'
                             value={course.exp}
                             name='exp'
                             onChange={onChange}

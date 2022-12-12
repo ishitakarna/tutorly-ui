@@ -17,9 +17,6 @@ import {
   import "../Login/LoginView.scss";
   import mainLogo from "../../assets/Tutorly.png";
   import { Typewriter } from 'react-simple-typewriter'
-  
-
-
 
 function LoginView() {
   const [email, setEmail] = useState('')
@@ -42,7 +39,7 @@ function LoginView() {
     .then(result => {
         navigate('/fp/learn')
     }).catch(err => {
-      alert('We do not have your details at our end, Kindly fill out this form')
+      alert('Looks like you a new here! Please proceed to fill a registration form...')
       navigate('/fp/userDetails')
       console.log(err);
     })
@@ -60,11 +57,11 @@ function LoginView() {
     .then(result => {
         navigate('/fp/learn')
     }).catch(err => {
-      alert('We do not have your details at our end, Kindly fill out this form')
+      alert('Looks like you a new here! Please proceed to fill a registration form...')
       navigate('/fp/userDetails')
       console.log(err);
     })
-    }).catch((err) => {alert('Invalid credentials, Please try again')})}
+    }).catch((err) => {alert('Invalid credentials. Please try again!')})}
 
     const registerpage = () => {
       navigate("/fp/register")
@@ -112,7 +109,7 @@ function LoginView() {
             <div className="text-white px-3 text-center py-4 p-md-5 mx-md-4">
               <h2 className="mb-4">New Here?</h2>
 
-              <h2 style={{ paddingTop: '1rem', margin: 'auto 0', fontWeight: 'normal' }}>We do the following{' '}
+              <h2 style={{ paddingTop: '1rem', margin: 'auto 0', fontWeight: 'normal' }}>Join us to{' '}
               <span style={{ color: 'lavender', fontWeight: 'bold' }}>
                 <Typewriter
                   words={['Teach', 'Learn', 'Collab', 'Repeat!']}
