@@ -27,7 +27,7 @@ import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 function TeachView() {
     const api = new Api();
     const navigate = useNavigate();
-    const [currentUser, setCurrentUser] = useState(0);
+    const [currentUser, setCurrentUser] = useState();
     
     const [isScheduling, setIsScheduling] = useState(false);
     const [isScheduled, setIsScheduled] = useState(false);
@@ -48,11 +48,14 @@ function TeachView() {
         if (!email) {
             navigate('/fp/login');
         } else {
+            let userId;
             api.getUserByEmail(email)
             .then(result => {
+              let user = result.data
+              userId = user.userId
               setCurrentUser(result.data.userId);
-              console.log(currentUser);
-              getUserTopics();
+              console.log(userId);
+              getUserTopics(userId);
               getTags();
             }).catch(err => {
               console.log(err);
@@ -64,7 +67,7 @@ function TeachView() {
       alert("Selected")
     }
 
-    function getUserTopics() {
+    function getUserTopics(currentUser) {
       let topics = []
       let userLinks = []
       api.getUserTopics(currentUser).then(result => {
@@ -79,7 +82,7 @@ function TeachView() {
           })
           setTopics(topics)
 
-          api.getUserSlots(data[0].user.userId)
+          api.getUserSlots(currentUser)
             .then(result => {
                 console.log(result)
                 let res = result.data

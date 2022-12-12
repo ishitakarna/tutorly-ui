@@ -6,6 +6,7 @@ import {signInWithGoogle} from './firebase'
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import Form from 'react-bootstrap/Form';
+import Api from "../../api";
 import {
     MDBBtn,
     MDBContainer,
@@ -24,6 +25,7 @@ function LoginView() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
+  const api = new Api();
   const clientId = '395638822106-cb794ss3le52s150a2j0er5u45d1um6t.apps.googleusercontent.com';
   useEffect(() => {
     const initClient = () => {
@@ -34,7 +36,17 @@ function LoginView() {
 
   const onSuccess = (res) => {
     localStorage.setItem("email", res.profileObj.email);
-    navigate('/fp/learn')};
+    const email = res.profileObj.email;
+    let userId;
+    api.getUserByEmail(email)
+    .then(result => {
+        navigate('/fp/learn')
+    }).catch(err => {
+      alert('We do not have your details at our end, Kindly fill out this form')
+      navigate('/fp/userDetails')
+      console.log(err);
+    })
+  }
 
   const onFailure = (err) => {
     alert("Login Failed")};
@@ -43,7 +55,16 @@ function LoginView() {
     e.preventDefault()
     signInWithEmailAndPassword(auth, email, password).then(() => {
     localStorage.setItem("email", email);
-    navigate('/fp/learn')}).catch(err => console.log(err.message))}
+    let userId;
+    api.getUserByEmail(email)
+    .then(result => {
+        navigate('/fp/learn')
+    }).catch(err => {
+      alert('We do not have your details at our end, Kindly fill out this form')
+      navigate('/fp/userDetails')
+      console.log(err);
+    })
+    }).catch((err) => {alert('Invalid credentials, Please try again')})}
 
     const registerpage = () => {
       navigate("/fp/register")
@@ -92,7 +113,7 @@ function LoginView() {
               <h2 className="mb-4">New Here?</h2>
 
               <h2 style={{ paddingTop: '1rem', margin: 'auto 0', fontWeight: 'normal' }}>We do the following{' '}
-              <span style={{ color: 'red', fontWeight: 'bold' }}>
+              <span style={{ color: 'lavender', fontWeight: 'bold' }}>
                 <Typewriter
                   words={['Teach', 'Learn', 'Collab', 'Repeat!']}
                   loop={100}
