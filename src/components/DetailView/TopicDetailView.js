@@ -165,6 +165,9 @@ function TopicDetailView() {
         updatedSlot.slotId = slotId;
         //console.log(updatedSlot);
 
+        if(bookedUserID === topic.user.userId) {
+            alert("Sorry but a user cannot book his own slot!")
+        } else {
         axios.post(slotURL, updatedSlot)
           .then(json => {
             setScheduleErr('');
@@ -177,6 +180,7 @@ function TopicDetailView() {
           .finally(() => {
             setIsScheduling(false);
           });
+        }
     }
 
     if(isLoading) {

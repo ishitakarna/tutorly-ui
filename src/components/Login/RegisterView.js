@@ -35,15 +35,14 @@ export default function RegisterView() {
     navigate('/fp/userDetails')};
 
   const onFailure = (err) => {
-    alert("Sign Up Failed")};
+    alert("User Sign Up Failed!")};
 
   const validatePassword = () => {
     let isValid = true
     if (password !== '' && confirmPassword !== ''){
       if (password !== confirmPassword) {
         isValid = false
-        alert('Passwords does not match')
-        setError('Passwords does not match')      
+        alert("Passwords don't match")
       }}
     return isValid} 
   const register = e => {
@@ -57,7 +56,7 @@ export default function RegisterView() {
       setPassword('')
       setConfirmPassword('');
       navigate("/fp/userDetails")
-    }).catch(err => alert("User email is already in use, Try logging in instead"))}}
+    }).catch(err => alert("User email is already in use. Try logging in instead!"))}}
 
   const loginPage = () => {
     navigate("/fp/login")}
