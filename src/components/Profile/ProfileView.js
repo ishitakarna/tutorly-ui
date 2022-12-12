@@ -22,37 +22,42 @@ function ProfileView() {
     const [university, setUniversity] = useState("")
     const [credits, setCredits] = useState("")
     const [topicRatings, setTopicRatings] = useState([])
+    const [isLoading, setLoading] = useState(true)
     const api = new Api()
 
     useEffect(() => {
         let userEmail = localStorage.getItem("email")
         setEmail(userEmail)
-        let userId
+        
         api.getUserByEmail(userEmail).then(result => {
             let user = result.data
             setName(user.userName)
             setPhone(user.phoneNumber)
             setDegree(user.userDegree)
             setUniversity(user.university)
-            userId = user.userId
+            let userId = user.userId
 
             api.getWalletByUserId(userId).then(result => {
                 setCredits(result.data.credit)
             })
             api.getTopicsByUserId(userId).then(result => {
                 let topics = result.data._embedded.topics
-                console.log(topics.map(val => ({
-                    topicName: val.topicName,
-                    overallRating: val.overallRating
-                })))
                 setTopicRatings(topics.map(val => ({
                     topicName: val.topicName,
                     overallRating: val.overallRating
                 })))
+                setLoading(false)
             })
         })
     }, []);
 
+    if(isLoading) {
+        return (
+            <div style={{textAlign: "center", padding: "10px" ,fontFamily: "Solway"}}>
+                <h1>Loading..</h1>
+            </div>
+        ) 
+    }
     return (
         <section style={{ fontFamily: "Solway"}}>
             <MDBContainer className="py-5">
@@ -144,18 +149,18 @@ function ProfileView() {
                                 {
                                     topicRatings.map((item, index) => {
                                     return (
-                                        <>
-                                    <MDBRow key={index}>
-                                        <MDBCol sm="5">
-                                            <MDBCardText className="left-margin">{item.topicName}</MDBCardText>
-                                        </MDBCol>
-                                        <MDBCol sm="7" className = "ratings-col left">
-                                            <Rating name="read-only" value={item.overallRating} readOnly
-                                                    precision={0.5} size="medium"/>
-                                        </MDBCol>
-                                    </MDBRow>
-                                    {index < topicRatings.length-1 ? <hr /> : <></> }
-                                    </>
+                                    <div key={index}>
+                                        <MDBRow key={index}>
+                                            <MDBCol sm="5">
+                                                <MDBCardText className="left-margin">{item.topicName}</MDBCardText>
+                                            </MDBCol>
+                                            <MDBCol sm="7" className = "ratings-col left">
+                                                <Rating name="read-only" value={item.overallRating} readOnly
+                                                        precision={0.5} size="medium"/>
+                                            </MDBCol>
+                                        </MDBRow>
+                                        {index < topicRatings.length-1 ? <hr /> : <></> }
+                                    </div>
                                     )
                                 })}
                             </MDBCardBody>

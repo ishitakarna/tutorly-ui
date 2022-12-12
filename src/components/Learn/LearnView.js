@@ -19,7 +19,7 @@ function LearnView() {
 
     const [tags, setTags] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const [filterCondition, setFilterCondition] = useState("");
+    const [filterCondition, setFilterCondition] = useState([]);
     const [filteredTags, setFilteredTags] = useState([]);
     const api = new Api();
 
@@ -29,7 +29,7 @@ function LearnView() {
 
     useEffect(() => {
         filterTags();
-    }, [filterCondition]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [filterCondition]);
 
     function getTags() {
         let tags = []
@@ -50,8 +50,13 @@ function LearnView() {
     }
 
     function filterTags() {
-        let filtered = tags.filter(tag => tag.tagName.includes(filterCondition));
-        setFilteredTags(filtered)
+        if(filterCondition.length !== 0) {
+            let filtered = tags.filter(tag => filterCondition.includes(tag.tagName))
+            setFilteredTags(filtered)
+        }
+        else {
+            setFilteredTags(tags)
+        }
     }
 
     if(isLoading) {
@@ -70,14 +75,14 @@ function LearnView() {
         {filteredTags.map((tag) =>
             <ListGroup key={tag.tagId}>
                 <ListGroup.Item className = "tag-container">{tag.tagName}</ListGroup.Item>
-                { (filterCondition === "") ? 
+                { (filterCondition.length !== 1) ? 
                     <div className = "topics-container">
-                        <TopicCards topics = {tag.topics}/>
+                        <TopicCards topics = {tag.topics} />
                     </div> :
                     <div>
                         <TopicCards topics = {tag.topics}/>
                     </div> 
-                }   
+                }  
             </ListGroup>
         )}   
         </div>
