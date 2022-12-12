@@ -52,11 +52,12 @@ export default function RegisterView() {
     if(validatePassword()) {
       createUserWithEmailAndPassword(auth, email, password).then((res) => {
       localStorage.setItem("email",email);
-      console.log(res.user);}).catch(err => setError(err.message))}
+      console.log(res.user);
       setEmail('')
       setPassword('')
       setConfirmPassword('');
-      navigate("/fp/userDetails")}
+      navigate("/fp/userDetails")
+    }).catch(err => setError(err.message))}}
 
   const loginPage = () => {
     navigate("/fp/login")}
@@ -85,7 +86,7 @@ export default function RegisterView() {
       <MDBCol col='6' className="mb-5" >
         <div className="d-flex flex-column ms-5">
         {error && <div className='auth__error'>{error}</div>}
-        <Form name='registration_form'>
+        <Form name='registration_form' onSubmit={register}>
           <div className="text-center">
             <img src={mainLogo} style={{width: '150px'}} alt="logo" />
              <h4 className="mt-1 mb-5 pb-1">Create Account</h4>
@@ -94,7 +95,7 @@ export default function RegisterView() {
           <MDBInput wrapperClass='mb-4' label='Password' name='password' type='password' value={password} placeholder='Enter your password' onChange={e => setPassword(e.target.value)} required/>
           <MDBInput wrapperClass='mb-4' label='Confirm Password' name='confirmPassword' type='password' value={confirmPassword} placeholder='Enter your password again' onChange={e => setConfirmPassword(e.target.value)} required/>
           <div className="text-center pt-1 mb-5 pb-1">
-            <MDBBtn className="mb-4 w-100 gradient-custom-3" type='submit' onClick={register}>Sign Up</MDBBtn>
+            <MDBBtn className="mb-4 w-100 gradient-custom-3" type='submit'>Sign Up</MDBBtn>
               <p>OR</p>
               <GoogleLogin
                  clientId={clientId}
