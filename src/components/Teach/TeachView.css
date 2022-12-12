@@ -1,0 +1,47 @@
+.courses-container {
+    height: 200px;
+    overflow: scroll;
+}
+
+.courses-container p {
+    margin-top: 30px;
+    font-size: 20px;
+}
+
+.teach-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+.teach-container span {
+    color: #3B71CA;
+    font-weight: bold;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.add-button {
+    text-align: center;
+}
+
+.slot-container {
+    height: 200px;
+    overflow: scroll;
+}
+
+.slot-container thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: white;
+}
+
+.courses-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
