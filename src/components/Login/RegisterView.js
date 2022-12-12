@@ -57,7 +57,7 @@ export default function RegisterView() {
       setPassword('')
       setConfirmPassword('');
       navigate("/fp/userDetails")
-    }).catch(err => setError(err.message))}}
+    }).catch(err => alert(err.message))}}
 
   const loginPage = () => {
     navigate("/fp/login")}
