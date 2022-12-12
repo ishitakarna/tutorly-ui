@@ -21,8 +21,9 @@ import {
   } from 'mdb-react-ui-kit';
 import Select from 'react-select'
 import { useState, useEffect } from "react";
-import { ListGroup, Table } from "react-bootstrap";
+import { ListGroup, Table, Spinner } from "react-bootstrap";
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
+import './TeachView.css'
 
 function TeachView() {
     const api = new Api();
@@ -243,128 +244,149 @@ function TeachView() {
             setActive(false);
             window.location.reload();
           });
-      }
+    }
 
+  if(isLoading) {
+      return (
+          <div style={{textAlign: "center", padding: "100px" ,fontFamily: "Solway"}}>
+              <Spinner animation="border" variant="primary" role="status" style={{ width: "3rem", height: "3rem" }}>
+                  <span className="visually-hidden">Loading...</span>
+              </Spinner>
+          </div>
+      ) 
+    }
     return (
         <>
-        <MDBCard>
-        <MDBCardBody>
-          <MDBCardTitle className="MDBCardTitle">Courses Taught</MDBCardTitle>
-          <hr style={{
-              background: 'grey',
-              color: 'grey',
-              borderColor: 'grey',
-              height: '2px',
-              }}/>
-          {topics.map((topic) =>
-            <ListGroup className="listrow" key={topic.topicId}>
-                <ListGroup.Item onClick={() => setActive(topic)}
-                  className={`list-item ${active === topic && "active"}`}>
-                    {topic.topicName}
-                </ListGroup.Item>
-            </ListGroup>
-          )} 
-          <br />
-          <MDBBtn className='mb-4' size='md' type="submit" onClick={toggleShow}>ADD COURSES</MDBBtn>
+        <div className="teach-container">
+          <MDBCard>
+            <MDBCardBody>
+              <MDBCardTitle className="center-text MDBCardTitle">Courses Taught</MDBCardTitle>
+              <hr style={{
+                  background: 'grey',
+                  color: 'grey',
+                  borderColor: 'grey',
+                  height: '2px',
+                  }}/>
+              <div className="courses-container">
+              { topics.length === 0 ? 
+                <p>No courses being currently taught</p>
+              :
+              topics.map((topic) =>
+                  <ListGroup className="listrow" key={topic.topicId}>
+                      <ListGroup.Item onClick={() => setActive(topic)}
+                        className={`list-item ${active === topic && "active"}`}>
+                          {topic.topicName}
+                      </ListGroup.Item>
+                  </ListGroup>
+                )} 
+              </div>
+              <div className="add-button">
+                  <MDBBtn className='mb-4' size='md' type="submit" onClick={toggleShow}>Add Course</MDBBtn>
+              </div>
+              <br />
 
-          <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
-            <MDBModalDialog>
-              <MDBModalContent>
-                <MDBModalHeader>
-                  <MDBModalTitle>Course Details</MDBModalTitle>
-                  <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn>
-                </MDBModalHeader>
-                <MDBModalBody>
-                  <MDBInput wrapperClass='mb-4' label='Title' id='form3' type='text'
-                    value={course.title}
-                    name='title'
-                    onChange={onChange}
-                    required/>
-                  <MDBInput wrapperClass='mb-4' label='Description' id='form4' type='text'
-                    value={course.desc}
-                    name='desc'
-                    onChange={onChange}
-                    required/>
-                  <Select placeholder="Select Tags" isMulti options={tags} onChange={handleSelect}/> <br />
-                  <MDBRow>
-                    <MDBCol col='4'>
-                      <MDBInput wrapperClass='mb-4' label='Price, $' id='form1' type='text'
-                        value={course.price}
-                        name='price'
+              <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
+                <MDBModalDialog>
+                  <MDBModalContent>
+                    <MDBModalHeader>
+                      <MDBModalTitle>Course Details</MDBModalTitle>
+                      <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn>
+                    </MDBModalHeader>
+                    <MDBModalBody>
+                      <MDBInput wrapperClass='mb-4' label='Title' id='form3' type='text'
+                        value={course.title}
+                        name='title'
                         onChange={onChange}
                         required/>
-                    </MDBCol>
-                    <MDBCol col='4'>
-                      <MDBInput wrapperClass='mb-4' label='Experience, Years' id='form2' type='text'
-                        value={course.exp}
-                        name='exp'
+                      <MDBInput wrapperClass='mb-4' label='Description' id='form4' type='text'
+                        value={course.desc}
+                        name='desc'
                         onChange={onChange}
                         required/>
-                    </MDBCol>
-                  </MDBRow>
-                </MDBModalBody>
+                      <Select placeholder="Select Tags" isMulti options={tags} onChange={handleSelect}/> <br />
+                      <MDBRow>
+                        <MDBCol col='4'>
+                          <MDBInput wrapperClass='mb-4' label='Price, $' id='form1' type='text'
+                            value={course.price}
+                            name='price'
+                            onChange={onChange}
+                            required/>
+                        </MDBCol>
+                        <MDBCol col='4'>
+                          <MDBInput wrapperClass='mb-4' label='Experience, Years' id='form2' type='text'
+                            value={course.exp}
+                            name='exp'
+                            onChange={onChange}
+                            required/>
+                        </MDBCol>
+                      </MDBRow>
+                    </MDBModalBody>
 
-                <MDBModalFooter>
-                  <MDBBtn color='secondary' onClick={toggleShow}>
-                    Close
-                  </MDBBtn>
-                  <MDBBtn onClick={addCourse}>Add Course</MDBBtn>
-                </MDBModalFooter>
-              </MDBModalContent>
-            </MDBModalDialog>
-          </MDBModal>
+                    <MDBModalFooter>
+                      <MDBBtn color='secondary' onClick={toggleShow}>
+                        Close
+                      </MDBBtn>
+                      <MDBBtn onClick={addCourse}>Add Course</MDBBtn>
+                    </MDBModalFooter>
+                  </MDBModalContent>
+                </MDBModalDialog>
+              </MDBModal>
 
-        </MDBCardBody>
-        <MDBCardBody>
-            <MDBCardTitle className="MDBCardTitle">Set Up Your Work Schedule</MDBCardTitle>
-            <hr style={{
-                background: 'grey',
-                color: 'grey',
-                borderColor: 'grey',
-                height: '2px',
-                }}/>
-            <MDBCardText className="MDBCardText">Set your availability on your own terms. Select a date and time when you will be available for your clients for booking appointments with you.</MDBCardText>
-            <DayTimePicker timeSlotSizeMinutes={60} 
-                onConfirm={handleScheduled}
-                isLoading={isScheduling}
-                isDone={isScheduled}
-                err={scheduleErr}
-                timeSlotValidator={timeSlotValidator}
-                confirmText={"Add Availability"}
-                loadingText={"Adding Slot"}
-                doneText={"Your Slot has been added."} />
-        </MDBCardBody>
-        <MDBCardBody>
-            <MDBCardTitle className="MDBCardTitle">My Availability</MDBCardTitle>
-            <hr style={{
-                background: 'grey',
-                color: 'grey',
-                borderColor: 'grey',
-                height: '2px',
-                }}/>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Slot ID</th>
-                  <th>Slot Date</th>
-                  <th>Start Time</th>
-                  <th>End Time</th>
-                </tr>
-              </thead>
-                        
-              <tbody>
-                {availSlots.map((slot) =>
-                  <tr key={slot.slotId}>
-                      <td>{slot.slotId}</td>
-                      <td>{slot.slotDate}</td>
-                      <td>{slot.startTime}</td>
-                      <td>{slot.endTime}</td>
+            </MDBCardBody>
+          <MDBCardBody>
+              <MDBCardTitle className="MDBCardTitle center-text">Set Up Your Work Schedule</MDBCardTitle>
+              <hr style={{
+                  background: 'grey',
+                  color: 'grey',
+                  borderColor: 'grey',
+                  height: '2px',
+                  }}/>
+              <MDBCardText className="MDBCardText">Set your availability on your own terms. <br></br>
+              Select a <span>date</span> and <span>time</span> when you will be available for your clients for booking appointments with you.</MDBCardText>
+              <DayTimePicker timeSlotSizeMinutes={60} 
+                  onConfirm={handleScheduled}
+                  isLoading={isScheduling}
+                  isDone={isScheduled}
+                  err={scheduleErr}
+                  timeSlotValidator={timeSlotValidator}
+                  confirmText={"Add Availability"}
+                  loadingText={"Adding Slot"}
+                  doneText={"Your Slot has been added."} />
+          </MDBCardBody>
+          <MDBCardBody>
+              <MDBCardTitle className="MDBCardTitle center-text">My Availability</MDBCardTitle>
+              <hr style={{
+                  background: 'grey',
+                  color: 'grey',
+                  borderColor: 'grey',
+                  height: '2px',
+                  }}/>
+              <div className = "slot-container">
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Slot ID</th>
+                    <th>Slot Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
                   </tr>
-                )}
-              </tbody>
-          </Table>
-        </MDBCardBody>
-        </MDBCard>
+                </thead>
+                          
+                <tbody>
+                  {availSlots.map((slot) =>
+                    <tr key={slot.slotId}>
+                        <td>{slot.slotId}</td>
+                        <td>{slot.slotDate}</td>
+                        <td>{slot.startTime}</td>
+                        <td>{slot.endTime}</td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+              </div>
+          </MDBCardBody>
+          </MDBCard>
+        </div>
         </>
     )
 }

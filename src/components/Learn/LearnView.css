@@ -1,6 +1,7 @@
 .topics-container {
     height: 260px;
     overflow-y: scroll;
+    overflow-x: clip;
 }
 
 .learn-container {
