@@ -26,3 +26,21 @@
 .schedule-container th {
     font-weight: bold;
 }
+
+.schedule-container tr {
+    font-size: 15px;
+}
+
+.feedback-button {
+    color: white;
+    background-color: #3B71CA;
+    border-color: #3B71CA;
+    box-shadow: #3B71CA;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.feedback-button:hover {
+    background-color: lavender;
+    color: black;
+}
