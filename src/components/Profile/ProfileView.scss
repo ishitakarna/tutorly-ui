@@ -1,6 +1,31 @@
 .ratings-container{
   display: flex;
   flex-direction: row;
-  align-items: end;
   justify-content: end;
 }
+
+.card-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ratings-col {
+  text-align: center;
+}
+
+.heading {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.left {
+  text-align: left;
+  font-size: 18px;
+}
+
+.left-margin {
+  text-align: left;
+  margin-left: 20px;
+  font-size: 18px;
+}
+

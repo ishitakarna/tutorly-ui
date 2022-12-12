@@ -5,16 +5,19 @@ import './GroupCards.css'
 function GroupCards({tags, filterCondition, setFilterCondition}) {
 
     function handleGroupClick(e) {
-        if(filterCondition === e.target.value) {
-            setFilterCondition("")
-            e.target.style.backgroundColor = "#3B71CA";
-            e.target.style.color = "white";
+        const val = e.target.value
+        const index = filterCondition.indexOf(val)
+        if (index > -1) { 
+            e.target.style.backgroundColor = "#3B71CA"
+            e.target.style.color = "white"
+            filterCondition.splice(index, 1)  
         }
         else {
-            setFilterCondition(e.target.value) 
-            e.target.style.backgroundColor = "lavender";
-            e.target.style.color = "black";
+            e.target.style.backgroundColor = "lavender"
+            e.target.style.color = "black"
+            filterCondition.push(val)
         }
+        setFilterCondition([...filterCondition])
     }
 
     return (

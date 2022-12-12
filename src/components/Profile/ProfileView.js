@@ -22,37 +22,42 @@ function ProfileView() {
     const [university, setUniversity] = useState("")
     const [credits, setCredits] = useState("")
     const [topicRatings, setTopicRatings] = useState([])
+    const [isLoading, setLoading] = useState(true)
     const api = new Api()
 
     useEffect(() => {
         let userEmail = localStorage.getItem("email")
         setEmail(userEmail)
-        let userId
+        
         api.getUserByEmail(userEmail).then(result => {
             let user = result.data
             setName(user.userName)
             setPhone(user.phoneNumber)
             setDegree(user.userDegree)
             setUniversity(user.university)
-            userId = user.userId
+            let userId = user.userId
 
             api.getWalletByUserId(userId).then(result => {
                 setCredits(result.data.credit)
             })
             api.getTopicsByUserId(userId).then(result => {
                 let topics = result.data._embedded.topics
-                console.log(topics.map(val => ({
-                    topicName: val.topicName,
-                    overallRating: val.overallRating
-                })))
                 setTopicRatings(topics.map(val => ({
                     topicName: val.topicName,
                     overallRating: val.overallRating
                 })))
+                setLoading(false)
             })
         })
     }, []);
 
+    if(isLoading) {
+        return (
+            <div style={{textAlign: "center", padding: "10px" ,fontFamily: "Solway"}}>
+                <h1>Loading..</h1>
+            </div>
+        ) 
+    }
     return (
         <section style={{ fontFamily: "Solway"}}>
             <MDBContainer className="py-5">
@@ -66,68 +71,69 @@ function ProfileView() {
                                     className="rounded-circle"
                                     style={{ width: '150px' }}
                                     fluid />
-                                <p className="mt-3">{university}</p>
-                                <p className="mt-0">{degree}</p>
+                                <p className="mt-3 card-name">{name}</p>
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
                     <MDBCol lg="8">
                         <MDBCard className="mb-4">
                             <MDBCardBody>
-                                <MDBCardText className="mb-4" size="large" style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>Profile Details</MDBCardText>
-                                <MDBRow>
-                                    <MDBCol sm="4">
-                                        <MDBCardText style={{fontSize: '1.1rem'}}>Name</MDBCardText>
-                                    </MDBCol>
-                                    <MDBCol sm="8">
-                                        <MDBCardText className="text-muted">{name}</MDBCardText>
-                                    </MDBCol>
-                                </MDBRow>
-                                <hr />
-                                <MDBRow>
-                                    <MDBCol sm="4">
-                                        <MDBCardText style={{fontSize: '1.1rem'}}>Email</MDBCardText>
-                                    </MDBCol>
-                                    <MDBCol sm="8">
-                                        <MDBCardText className="text-muted">{email}</MDBCardText>
-                                    </MDBCol>
-                                </MDBRow>
-                                <hr />
-                                <MDBRow>
-                                    <MDBCol sm="4">
-                                        <MDBCardText style={{fontSize: '1.1rem'}}>Phone</MDBCardText>
-                                    </MDBCol>
-                                    <MDBCol sm="8">
-                                        <MDBCardText className="text-muted">{phone}</MDBCardText>
-                                    </MDBCol>
-                                </MDBRow>
-                                <hr />
-                                <MDBRow>
-                                    <MDBCol sm="4">
-                                        <MDBCardText style={{fontSize: '1.1rem'}}>Degree</MDBCardText>
-                                    </MDBCol>
-                                    <MDBCol sm="8">
-                                        <MDBCardText className="text-muted">{degree}</MDBCardText>
-                                    </MDBCol>
-                                </MDBRow>
-                                <hr />
-                                <MDBRow>
-                                    <MDBCol sm="4">
-                                        <MDBCardText style={{fontSize: '1.1rem'}}>University</MDBCardText>
-                                    </MDBCol>
-                                    <MDBCol sm="8">
-                                        <MDBCardText className="text-muted">{university}</MDBCardText>
-                                    </MDBCol>
-                                </MDBRow>
-                                <hr />
-                                <MDBRow>
-                                    <MDBCol sm="4">
-                                        <MDBCardText style={{fontSize: '1.1rem'}}>Credits</MDBCardText>
-                                    </MDBCol>
-                                    <MDBCol sm="8">
-                                        <MDBCardText className="text-muted">${credits}</MDBCardText>
-                                    </MDBCol>
-                                </MDBRow>
+                                <MDBCardText className="mb-4 heading">Profile Details</MDBCardText>
+                                <div>
+                                    <MDBRow>
+                                        <MDBCol sm="5">
+                                            <MDBCardText className='left-margin'>Name</MDBCardText>
+                                        </MDBCol>
+                                        <MDBCol sm="7">
+                                            <MDBCardText className="text-muted left">{name}</MDBCardText>
+                                        </MDBCol>
+                                    </MDBRow>
+                                    <hr />
+                                    <MDBRow>
+                                        <MDBCol sm="5">
+                                            <MDBCardText className='left-margin'>Email</MDBCardText>
+                                        </MDBCol>
+                                        <MDBCol sm="7">
+                                            <MDBCardText className="text-muted left">{email}</MDBCardText>
+                                        </MDBCol>
+                                    </MDBRow>
+                                    <hr />
+                                    <MDBRow>
+                                        <MDBCol sm="5">
+                                            <MDBCardText className='left-margin'>Phone</MDBCardText>
+                                        </MDBCol>
+                                        <MDBCol sm="7">
+                                            <MDBCardText className="text-muted left">{phone}</MDBCardText>
+                                        </MDBCol>
+                                    </MDBRow>
+                                    <hr />
+                                    <MDBRow>
+                                        <MDBCol sm="5">
+                                            <MDBCardText className='left-margin'>Degree</MDBCardText>
+                                        </MDBCol>
+                                        <MDBCol sm="7">
+                                            <MDBCardText className="text-muted left">{degree}</MDBCardText>
+                                        </MDBCol>
+                                    </MDBRow>
+                                    <hr />
+                                    <MDBRow>
+                                        <MDBCol sm="5">
+                                            <MDBCardText className='left-margin'>University</MDBCardText>
+                                        </MDBCol>
+                                        <MDBCol sm="7">
+                                            <MDBCardText className="text-muted left">{university}</MDBCardText>
+                                        </MDBCol>
+                                    </MDBRow>
+                                    <hr />
+                                    <MDBRow>
+                                        <MDBCol sm="5">
+                                            <MDBCardText className='left-margin'>Credits</MDBCardText>
+                                        </MDBCol>
+                                        <MDBCol sm="7">
+                                            <MDBCardText className="text-muted left">${credits}</MDBCardText>
+                                        </MDBCol>
+                                    </MDBRow>
+                                </div>
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
@@ -139,23 +145,22 @@ function ProfileView() {
                     <MDBCol lg="8">
                         <MDBCard className="mb-4 mb-md-0">
                             <MDBCardBody>
-                                <MDBCardText className="mb-4" size="large" style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>Topic Ratings</MDBCardText>
+                                <MDBCardText className="mb-4 heading">Topic Ratings</MDBCardText>
                                 {
                                     topicRatings.map((item, index) => {
                                     return (
-                                        <>
-                                    <MDBRow key={index}>
-                                        <MDBCol sm="4">
-                                            <MDBCardText className="mb-1"
-                                                         style={{fontSize: '1.1rem'}}>{item.topicName}</MDBCardText>
-                                        </MDBCol>
-                                        <MDBCol sm="8">
-                                            <Rating name="read-only" value={item.overallRating} readOnly
-                                                    precision={0.5} size="medium"/>
-                                        </MDBCol>
-                                    </MDBRow>
-                                    {index < topicRatings.length-1 ? <hr /> : <></> }
-                                    </>
+                                    <div key={index}>
+                                        <MDBRow key={index}>
+                                            <MDBCol sm="5">
+                                                <MDBCardText className="left-margin">{item.topicName}</MDBCardText>
+                                            </MDBCol>
+                                            <MDBCol sm="7" className = "ratings-col left">
+                                                <Rating name="read-only" value={item.overallRating} readOnly
+                                                        precision={0.5} size="medium"/>
+                                            </MDBCol>
+                                        </MDBRow>
+                                        {index < topicRatings.length-1 ? <hr /> : <></> }
+                                    </div>
                                     )
                                 })}
                             </MDBCardBody>
