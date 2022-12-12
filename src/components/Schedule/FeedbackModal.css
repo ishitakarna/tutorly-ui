@@ -22,3 +22,7 @@
     font-weight: bold;
     margin-bottom: 0;
 }
+
+.modal-container span {
+    color: #3B71CA
+}

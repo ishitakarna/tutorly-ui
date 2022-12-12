@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import Api from "../../api";
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Spinner } from "react-bootstrap";
 import TopicCards from "./TopicCards";
 import './LearnView.css'
 import {useNavigate} from 'react-router-dom';
@@ -61,8 +61,10 @@ function LearnView() {
 
     if(isLoading) {
         return (
-            <div style={{textAlign: "center", padding: "10px" , fontFamily: "Solway"}}>
-                <h1>Loading..</h1>
+            <div style={{textAlign: "center", padding: "100px" ,fontFamily: "Solway"}}>
+                <Spinner animation="border" variant="primary" role="status" style={{ width: "3rem", height: "3rem" }}>
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
             </div>
         ) 
     }
