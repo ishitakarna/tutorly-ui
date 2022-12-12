@@ -21,13 +21,13 @@ import {
   } from 'mdb-react-ui-kit';
 import Select from 'react-select'
 import { useState, useEffect } from "react";
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Table } from "react-bootstrap";
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 
 function TeachView() {
     const api = new Api();
     const navigate = useNavigate();
-    const [currentUser, setCurrentUser] = useState();
+    const [currentUser, setCurrentUser] = useState(null);
     
     const [isScheduling, setIsScheduling] = useState(false);
     const [isScheduled, setIsScheduled] = useState(false);
@@ -42,6 +42,7 @@ function TeachView() {
     const [course, setCourse] = useState({});
     const [tagIds, setTagIds] = useState([]); 
     const [slots, setSlot] = useState('');
+    const [availSlots, setAvailSlot] = useState([]);
 
     useEffect(() => {
         const email = localStorage.getItem('email');
@@ -57,6 +58,7 @@ function TeachView() {
               console.log(userId);
               getUserTopics(userId);
               getTags();
+              getAvailableSlots(userId);
             }).catch(err => {
               console.log(err);
             })
@@ -115,6 +117,25 @@ function TeachView() {
           setTags(tags)
           setLoading(false)
       })
+    }
+
+    function getAvailableSlots(userId) {
+      api.getAvailableSlots(userId)
+            .then(result => {
+                console.log(result)
+                let res = result.data
+                let slots = []
+                Object.keys(res).forEach(function(key) {
+                    let slot = {}
+                    let val = res[key]
+                    slot.slotId = val.slotId;
+                    slot.slotDate = val.slotDate;
+                    slot.startTime = val.startTime;
+                    slot.endTime = val.endTime;
+                    slots.push(slot);
+                })
+                setAvailSlot(slots)
+            }).catch((err) => console.log(err))
     }
 
     const onChange = (e) => {
@@ -212,7 +233,7 @@ function TeachView() {
           .then(response => {
             setScheduleErr('');
             setIsScheduled(true);
-            alert(response);
+            //console.log(response);
           })
           .catch(err => {
             setScheduleErr(err);
@@ -220,6 +241,7 @@ function TeachView() {
           .finally(() => {
             setIsScheduling(false);
             setActive(false);
+            window.location.reload();
           });
       }
 
@@ -294,14 +316,14 @@ function TeachView() {
 
         </MDBCardBody>
         <MDBCardBody>
-            <MDBCardTitle className="MDBCardTitle">Time Slots</MDBCardTitle>
+            <MDBCardTitle className="MDBCardTitle">Set Up Your Work Schedule</MDBCardTitle>
             <hr style={{
                 background: 'grey',
                 color: 'grey',
                 borderColor: 'grey',
                 height: '2px',
                 }}/>
-            <MDBCardText className="MDBCardText">Set your availability on your own terms. Here, you can select different time slots for your schedule.</MDBCardText>
+            <MDBCardText className="MDBCardText">Set your availability on your own terms. Select a date and time when you will be available for your clients for booking appointments with you.</MDBCardText>
             <DayTimePicker timeSlotSizeMinutes={60} 
                 onConfirm={handleScheduled}
                 isLoading={isScheduling}
@@ -310,7 +332,37 @@ function TeachView() {
                 timeSlotValidator={timeSlotValidator}
                 confirmText={"Add Availability"}
                 loadingText={"Adding Slot"}
-                doneText={"Your Slot has been added."} />;
+                doneText={"Your Slot has been added."} />
+        </MDBCardBody>
+        <MDBCardBody>
+            <MDBCardTitle className="MDBCardTitle">My Availability</MDBCardTitle>
+            <hr style={{
+                background: 'grey',
+                color: 'grey',
+                borderColor: 'grey',
+                height: '2px',
+                }}/>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Slot ID</th>
+                  <th>Slot Date</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                </tr>
+              </thead>
+                        
+              <tbody>
+                {availSlots.map((slot) =>
+                  <tr key={slot.slotId}>
+                      <td>{slot.slotId}</td>
+                      <td>{slot.slotDate}</td>
+                      <td>{slot.startTime}</td>
+                      <td>{slot.endTime}</td>
+                  </tr>
+                )}
+              </tbody>
+          </Table>
         </MDBCardBody>
         </MDBCard>
         </>
