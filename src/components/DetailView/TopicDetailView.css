@@ -1,0 +1,47 @@
+.topic-detail-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 250px;
+    padding-right: 250px;
+}
+
+.desc-title {
+    margin-bottom: 0px;
+}
+
+.topic-detail-container hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.topic-detail-container span {
+    font-weight: bold;
+    color: #3B71CA;
+}
+
+.jQMQWL {
+    font-size: 13px;
+    width: 500px;
+}
+
+.dckwQp {
+    height: 30px;
+    width: 30px;
+}
+
+.jsItLH {
+    height: 30px;
+    width: 30px;
+}
+
+.jQMQWL section {
+    margin: 0em;
+}
+
+.jQMQWL header {
+    margin-bottom: 1em;
+}
+
+.fukbtW {
+    height: 250px;
+}

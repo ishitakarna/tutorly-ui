@@ -1,13 +1,12 @@
 import {
-    json,
     useParams
   } from "react-router-dom";  
 import React from "react";
 import { useState, useEffect } from "react";
 import Api from "../../api";
-import { Button } from "react-bootstrap";
 import axios from "axios";
 import './Detail.scss'
+import './TopicDetailView.css'
 import {
     MDBCard,
     MDBCardBody,
@@ -16,11 +15,11 @@ import {
     MDBCardText,
     MDBRow,
     MDBCol,
-    MDBBtn
   } from 'mdb-react-ui-kit';
 import ReactStars from 'react-stars'
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 import {useNavigate} from 'react-router-dom';
+import { Spinner } from "react-bootstrap";
 
 function TopicDetailView() {
     
@@ -59,11 +58,11 @@ function TopicDetailView() {
 
     function getTopicDetails() {
         var topicId = id;
-        console.log(String(id))
+        //console.log(String(id))
 
         api.getTopicUser(topicId)
         .then(res => {
-            console.log(res)
+            //console.log(res)
             topic.topicName = res.data.topicName
             topic.description = res.data.description
             topic.creditPerHr = res.data.creditPerHr
@@ -73,7 +72,7 @@ function TopicDetailView() {
 
             api.getAvailableSlots(res.data.user.userId)
             .then(result => {
-                console.log(result)
+                //console.log(result)
                 let res = result.data
                 let slots = []
                 Object.keys(res).forEach(function(key) {
@@ -164,13 +163,13 @@ function TopicDetailView() {
         });
         
         updatedSlot.slotId = slotId;
-        console.log(updatedSlot);
+        //console.log(updatedSlot);
 
         axios.post(slotURL, updatedSlot)
           .then(json => {
             setScheduleErr('');
             setIsScheduled(true);
-            console.log(json);
+            //console.log(json);
           })
           .catch(err => {
             setScheduleErr(err);
@@ -182,76 +181,62 @@ function TopicDetailView() {
 
     if(isLoading) {
         return (
-            <div style={{textAlign: "center", padding: "10px"}}>
-                <h1>Loading..</h1>
+            <div style={{textAlign: "center", padding: "100px" ,fontFamily: "Solway"}}>
+                <Spinner animation="border" variant="primary" role="status" style={{ width: "3rem", height: "3rem" }}>
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
             </div>
-        ) 
+        )
     }
     return (
         <>
-        <MDBCard>
-            <MDBCardBody>
-                <MDBCardTitle className="MDBCardHTitle">{topic.topicName}</MDBCardTitle>
-                <MDBCardSubTitle className="MDBCardSubTitle">Taught By {topic.user.userName}</MDBCardSubTitle>
-            </MDBCardBody>
-            <MDBCardBody>
-                <MDBCardTitle className="MDBCardTitle">Description</MDBCardTitle>
-                <hr style={{
-                    background: 'grey',
-                    color: 'grey',
-                    borderColor: 'grey',
-                    height: '2px',
-                    }}/>
-                <MDBCardText className="MDBCardText">{topic.description}.</MDBCardText>
-            </MDBCardBody>
-            <MDBRow>
-            <MDBCol sm='6'>
-            <MDBCardBody>
-                <MDBCardTitle className="MDBCardTitle">Rating</MDBCardTitle>
-                <hr style={{
-                    background: 'grey',
-                    color: 'grey',
-                    borderColor: 'grey',
-                    height: '2px',
-                    }}/>
-                <ReactStars
-                    count={5}
-                    value={topic.overallRating}
-                    size={20}
-                    edit={false}
-                    color2={'#0000FF'}/>
-            </MDBCardBody>
-            </MDBCol>
-            <MDBCol sm='6'>
-            <MDBCardBody>
-                <MDBCardTitle className="MDBCardTitle">Cost</MDBCardTitle>
-                <hr style={{
-                    background: 'grey',
-                    color: 'grey',
-                    borderColor: 'grey',
-                    height: '2px',
-                    }}/>
-                <MDBCardText className="MDBCardText">${topic.creditPerHr} per Hour</MDBCardText>
-            </MDBCardBody>
-            </MDBCol>
-            </MDBRow>
-            <MDBCardBody>
-                <MDBCardTitle className="MDBCardTitle">Book A Slot</MDBCardTitle>
-                <hr style={{
-                    background: 'grey',
-                    color: 'grey',
-                    borderColor: 'grey',
-                    height: '2px',
-                    }}/>
-                <DayTimePicker timeSlotSizeMinutes={60} 
-                    onConfirm={handleScheduled}
-                    isLoading={isScheduling}
-                    isDone={isScheduled}
-                    err={scheduleErr}
-                    timeSlotValidator={timeSlotValidator} 
-                    doneText={"Thank You, Your session has been scheduled! Details have been sent to your mail."}/>;
-            </MDBCardBody>
-        </MDBCard>
+        <div className = "topic-detail-container">
+            <MDBCard>
+                <MDBCardBody>
+                    <MDBCardTitle className="MDBCardHTitle">{topic.topicName}</MDBCardTitle>
+                    <MDBCardSubTitle className="MDBCardSubTitle">Taught By <span>{topic.user.userName}</span></MDBCardSubTitle>
+                </MDBCardBody>
+                <MDBCardBody>
+                    <MDBCardTitle className="desc-title MDBCardTitle">Description</MDBCardTitle>
+                    <hr/>
+                    <MDBCardText className="MDBCardText">{topic.description}.</MDBCardText>
+                </MDBCardBody>
+                <MDBRow>
+                <MDBCol sm='6'>
+                <MDBCardBody>
+                    <MDBCardTitle className="MDBCardTitle">Rating</MDBCardTitle>
+                    <hr/>
+                    <ReactStars
+                        count={5}
+                        value={parseFloat(topic.overallRating)}
+                        size={20}
+                        edit={false}
+                        color1={'white'}
+                        color2={'#3B71CA'}/>
+                </MDBCardBody>
+                </MDBCol>
+                <MDBCol sm='6'>
+                <MDBCardBody>
+                    <MDBCardTitle className="MDBCardTitle">Cost</MDBCardTitle>
+                    <hr/>
+                    <MDBCardText className="MDBCardText"><span>${topic.creditPerHr}</span> per Hour</MDBCardText>
+                </MDBCardBody>
+                </MDBCol>
+                </MDBRow>
+                <MDBCardBody>
+                    <MDBCardTitle className="MDBCardTitle">Book A Slot</MDBCardTitle>
+                    <hr/>
+                    <DayTimePicker
+                        timeSlotSizeMinutes={60} 
+                        onConfirm={handleScheduled}
+                        isLoading={isScheduling}
+                        isDone={isScheduled}
+                        err={scheduleErr}
+                        timeSlotValidator={timeSlotValidator} 
+                        doneText={"Thank You, Your session has been scheduled! Details have been sent to your mail."}/>
+                </MDBCardBody>
+            </MDBCard>
+        </div>
         </>
     )
 }
