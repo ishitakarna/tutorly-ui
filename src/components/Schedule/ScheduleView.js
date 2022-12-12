@@ -11,8 +11,7 @@ function ScheduleView() {
     const navigate = useNavigate();
     const api = new Api();
     
-    //const email = localStorage.getItem('email');
-    const email = "aditya@illinois.edu"
+    const email = localStorage.getItem('email');
 
     const [activeTeachBookings, setActiveTeachBookings] = useState([]);
     const [pastTeachBookings, setPastTeachBookings] = useState([]);
