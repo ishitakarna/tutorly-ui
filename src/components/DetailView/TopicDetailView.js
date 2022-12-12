@@ -148,16 +148,21 @@ function TopicDetailView() {
 
         slots.map((slot) =>  {
             //console.log(slot.slotDate)
-            const mDate = slot.slotDate.slice(0,4)+"-"+(Number(slot.slotDate.slice(5,7))-1)+"-"+slot.slotDate.slice(8);
-            if(updatedSlot.slotDate === mDate){
-                //console.log(sDate, mDate, slot.startTime, (slotTime.getHours()+":00:00"))
-                if(slot.startTime === updatedSlot.startTime) {
-                    //console.log(slot.startTime === (slotTime.getHours()+":00:00"))
-                    slotId = slot.slotId;
-                    console.log(slotId)
-                }   
+            // const mDate = slot.slotDate.slice(0,4)+"-"+(Number(slot.slotDate.slice(5,7))-1)+"-"+slot.slotDate.slice(8);
+            // if(updatedSlot.slotDate === mDate){
+            //     //console.log(sDate, mDate, slot.startTime, (slotTime.getHours()+":00:00"))
+            //     if(slot.startTime === updatedSlot.startTime) {
+            //         //console.log(slot.startTime === (slotTime.getHours()+":00:00"))
+            //         slotId = slot.slotId;
+            //         console.log(slotId)
+            //     }   
+            // }
+
+            if (slot.slotDate === updatedSlot.slotDate && slot.startTime === updatedSlot.startTime) {
+                slotId = slot.slotId;
             }
         });
+        
         updatedSlot.slotId = slotId;
         console.log(updatedSlot);
 
