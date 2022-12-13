@@ -31,9 +31,12 @@ function LoginView() {
   const navigate = useNavigate()
   const api = new Api();
   const clientId = '395638822106-cb794ss3le52s150a2j0er5u45d1um6t.apps.googleusercontent.com';
-
+  const [error, setError] = useState('')
   const [basicModal, setBasicModal] = useState(false);
-  const toggleShow = () => setBasicModal(!basicModal);
+  const [errorModal, setErrorModal] = useState(false);
+  const toggleShow = () => {
+    setErrorModal(!errorModal)
+    setError('')};
 
   useEffect(() => {
     const initClient = () => {
@@ -58,7 +61,10 @@ function LoginView() {
   }
 
   const onFailure = (err) => {
-    alert("Login Failed")};
+    //alert("Login Failed")
+    setError("Login Failed")
+    setErrorModal(true)
+  };
 
   const navigateToLearn = (err) => {
     navigate('/fp/learn')};
@@ -80,7 +86,10 @@ function LoginView() {
       setBasicModal(true)
       console.log(err);
     })
-    }).catch((err) => {alert('Invalid credentials. Please try again!')})}
+    }).catch((err) => {
+      //alert('Invalid credentials. Please try again!')
+      setError("Invalid credentials. Please try again!")
+      setErrorModal(true)})}
 
     const registerpage = () => {
       navigate("/fp/register")
@@ -153,6 +162,18 @@ function LoginView() {
         </MDBRow>
         </MDBContainer>
       </Form>
+
+      <MDBModal show={errorModal} tabIndex='-1' setShow={setErrorModal}>
+        <MDBModalDialog>
+          <MDBModalContent>
+            <MDBModalBody>
+            <MDBBtn className='btn-close' color='none' onClick={toggleShow} style={{float: 'right'}}>
+            </MDBBtn> <br/>
+            <p style={{ "white-space": "pre-wrap" }}>{error}</p>
+            </MDBModalBody>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
 
       <MDBModal show={basicModal} tabIndex='-1' setShow={setBasicModal}>
         <MDBModalDialog>
