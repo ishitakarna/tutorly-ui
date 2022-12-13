@@ -11,7 +11,11 @@ import {
     MDBContainer,
     MDBRow,
     MDBCol,
-    MDBInput
+    MDBInput,
+    MDBModal,
+    MDBModalDialog,
+    MDBModalContent,
+    MDBModalBody
   }from 'mdb-react-ui-kit';
 import "../Login/LoginView.scss";
 import mainLogo from "../../assets/Tutorly.png";
@@ -23,6 +27,11 @@ export default function RegisterView() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const clientId = '395638822106-cb794ss3le52s150a2j0er5u45d1um6t.apps.googleusercontent.com';
+  const [basicModal, setBasicModal] = useState(false);
+  const toggleShow = () => {
+    setBasicModal(!basicModal)
+    setError('')};
+
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
@@ -35,19 +44,23 @@ export default function RegisterView() {
     navigate('/fp/userDetails')};
 
   const onFailure = (err) => {
-    alert("User Sign Up Failed!")};
+    //alert("User Sign Up Failed!")
+    setError("Sorry, User Sign Up Failed!")
+    setBasicModal(true)
+  };
 
   const validatePassword = () => {
     let isValid = true
     if (password !== '' && confirmPassword !== ''){
       if (password !== confirmPassword) {
         isValid = false
-        alert("Passwords don't match")
+        //alert("Passwords don't match")
+        setError("Passwords don't match")
+        setBasicModal(true)
       }}
     return isValid} 
   const register = e => {
     e.preventDefault()
-    setError('')
     if(validatePassword()) {
       createUserWithEmailAndPassword(auth, email, password).then((res) => {
       localStorage.setItem("email",email);
@@ -56,7 +69,11 @@ export default function RegisterView() {
       setPassword('')
       setConfirmPassword('');
       navigate("/fp/userDetails")
-    }).catch(err => alert("User email is already in use. Try logging in instead!"))}}
+    }).catch(err => {
+      //alert("User email is already in use. Try logging in instead!")
+      setError("User email is already in use. \n Try logging in instead!     ")
+      setBasicModal(true)
+    })}}
 
   const loginPage = () => {
     navigate("/fp/login")}
@@ -84,7 +101,6 @@ export default function RegisterView() {
       
       <MDBCol col='6' className="mb-5" >
         <div className="d-flex flex-column ms-5">
-        {error && <div className='auth__error'>{error}</div>}
         <Form name='registration_form' onSubmit={register}>
           <div className="text-center">
             <img src={mainLogo} style={{width: '150px'}} alt="logo" />
@@ -110,6 +126,18 @@ export default function RegisterView() {
         </div>
       </MDBCol>
       </MDBRow>
+
+      <MDBModal show={basicModal} tabIndex='-1' setShow={setBasicModal}>
+        <MDBModalDialog size="sm">
+          <MDBModalContent>
+            <MDBModalBody>
+            <MDBBtn className='btn-close' color='none' onClick={toggleShow} style={{float: 'right'}}>
+            </MDBBtn> <br/>
+            <p style={{ "white-space": "pre-wrap" }}>{error}</p>
+            </MDBModalBody>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
       </MDBContainer>
     </div>
     );
