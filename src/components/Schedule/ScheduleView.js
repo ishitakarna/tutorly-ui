@@ -90,7 +90,7 @@ function ScheduleView() {
 
     function isPast(date) {
         const today = new Date()
-        if(date < today)
+        if(new Date(date) < today)
             return true
         return false
     }
