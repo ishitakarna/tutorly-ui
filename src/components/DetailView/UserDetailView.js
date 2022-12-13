@@ -11,7 +11,11 @@ import {
   MDBCol,
   MDBRow,
   MDBInput,
-  MDBCheckbox
+  MDBCheckbox,
+  MDBModal,
+  MDBModalDialog,
+  MDBModalContent,
+  MDBModalBody
 }
 from 'mdb-react-ui-kit';
 import Form from 'react-bootstrap/Form';
@@ -29,6 +33,11 @@ function UserDetailView() {
   uni: '',
   degree: ''
   });
+  const [basicModal, setBasicModal] = useState(false);
+  const toggleShow = () => setBasicModal(!basicModal);
+
+  const navigateToLearn = (err) => {
+    navigate("/fp/learn");};
   
   useEffect(() => {
   if (!email) {
@@ -63,7 +72,7 @@ function UserDetailView() {
         uni: '',
         degree: ''
         });
-      navigate("/fp/learn");
+      setBasicModal(true)
     })
     .catch(error => console.log(error))
   }
@@ -116,6 +125,19 @@ function UserDetailView() {
           </Form>
         </MDBCardBody>
       </MDBCard>
+
+      <MDBModal show={basicModal} tabIndex='-1' setShow={setBasicModal}>
+        <MDBModalDialog>
+          <MDBModalContent>
+            <MDBModalBody>
+            <p>Congratulations! <br/> You have recieved a credit of $100</p>
+            <MDBBtn color='secondary' style={{float: 'right'}} onClick={navigateToLearn}>
+                OK
+              </MDBBtn>
+            </MDBModalBody>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
     </MDBContainer>
   );
 };

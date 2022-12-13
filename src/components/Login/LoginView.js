@@ -12,7 +12,14 @@ import {
     MDBContainer,
     MDBRow,
     MDBCol,
-    MDBInput
+    MDBInput,
+    MDBModal,
+    MDBModalDialog,
+    MDBModalContent,
+    MDBModalTitle,
+    MDBModalBody,
+    MDBModalHeader,
+    MDBModalFooter,
   }from 'mdb-react-ui-kit';
   import "../Login/LoginView.scss";
   import mainLogo from "../../assets/Tutorly.png";
@@ -24,6 +31,10 @@ function LoginView() {
   const navigate = useNavigate()
   const api = new Api();
   const clientId = '395638822106-cb794ss3le52s150a2j0er5u45d1um6t.apps.googleusercontent.com';
+
+  const [basicModal, setBasicModal] = useState(false);
+  const toggleShow = () => setBasicModal(!basicModal);
+
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
@@ -39,14 +50,21 @@ function LoginView() {
     .then(result => {
         navigate('/fp/learn')
     }).catch(err => {
-      alert('Looks like you a new here! Please proceed to fill a registration form...')
-      navigate('/fp/userDetails')
+      //alert('Looks like you a new here! Please proceed to fill a registration form...')
+      //navigate('/fp/userDetails')
+      setBasicModal(true)
       console.log(err);
     })
   }
 
   const onFailure = (err) => {
     alert("Login Failed")};
+
+  const navigateToLearn = (err) => {
+    navigate('/fp/learn')};
+
+  const navigateToUserDetails = (err) => {
+    navigate('/fp/userDetails')};
 
   const login = e => {
     e.preventDefault()
@@ -57,8 +75,9 @@ function LoginView() {
     .then(result => {
         navigate('/fp/learn')
     }).catch(err => {
-      alert('Looks like you a new here! Please proceed to fill a registration form...')
-      navigate('/fp/userDetails')
+      //alert('Looks like you a new here! Please proceed to fill a registration form...')
+      //navigate('/fp/userDetails')
+      setBasicModal(true)
       console.log(err);
     })
     }).catch((err) => {alert('Invalid credentials. Please try again!')})}
@@ -134,6 +153,19 @@ function LoginView() {
         </MDBRow>
         </MDBContainer>
       </Form>
+
+      <MDBModal show={basicModal} tabIndex='-1' setShow={setBasicModal}>
+        <MDBModalDialog>
+          <MDBModalContent>
+            <MDBModalBody>
+            <p>We do not have your details at our end, <br/> Kindly fill out this form</p>
+            <MDBBtn color='secondary' style={{float: 'right'}} onClick={navigateToUserDetails}>
+                OK
+              </MDBBtn>
+            </MDBModalBody>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
     </div>
     );}
 export default LoginView;
