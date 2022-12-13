@@ -3,6 +3,7 @@ import './NavBar.css';
 import { Link } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate, generatePath } from 'react-router-dom';
+import mainLogo from "../../assets/Tutorly-xl.png";
 
 import {
   MDBContainer,
@@ -69,7 +70,7 @@ function NavBar() {
       <MDBContainer fluid>
         <MDBNavbarBrand href='#' className='d-flex justify-content-start'>
             <img
-              src='https://cdn-icons-png.flaticon.com/512/4334/4334807.png'
+              src={mainLogo}
               height='50'
               alt=''
               loading='lazy'
