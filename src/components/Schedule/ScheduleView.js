@@ -80,7 +80,6 @@ function ScheduleView() {
                 learnSlotsPast.push(slot)
             else {
                 learnSlotsActive.push(slot)
-                learnSlotsPast.push(slot)
             }
         })
 
