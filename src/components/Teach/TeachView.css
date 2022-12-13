@@ -28,6 +28,15 @@
     text-align: center;
 }
 
+.button-type {
+    background-color: #3B71CA;
+}
+
+.button-type:hover {
+    background-color: lavender;
+    color: black;
+}
+
 .slot-container {
     height: 200px;
     overflow: scroll;

@@ -89,9 +89,9 @@ function LoginView() {
     return(
       <div style={{ 
         height: '100%', position: 'absolute', left: '0px', width: '100%', overflow: 'hidden', // eslint-disable-next-line
-        backgroundImage: "url(" + "https://images.pexels.com/photos/733852/pexels-photo-733852.jpeg?auto=compress" + ")"}}>
+        }}>
 
-      <Form onSubmit={login} name='login_form'>
+      <Form className = "login-container" onSubmit={login} name='login_form'>
         <MDBContainer className="my-5 gradient-form" >
         <MDBRow>
           <MDBCol col='6' className="mb-5" >
@@ -107,7 +107,7 @@ function LoginView() {
               
               <div className="text-center pt-1 mb-5 pb-1">
                 <MDBBtn className="mb-4 w-100 gradient-custom-3" type='submit'>Sign in</MDBBtn>
-                <p>OR CONTINUE WITH GOOGLE</p>
+                <p>OR</p>
                  
                  <GoogleLogin
                  clientId={clientId}
@@ -128,8 +128,8 @@ function LoginView() {
             <div className="text-white px-3 text-center py-4 p-md-5 mx-md-4">
               <h2 className="mb-4">New Here?</h2>
 
-              <h2 style={{ paddingTop: '1rem', margin: 'auto 0', fontWeight: 'normal' }}>Join us to{' '}
-              <span style={{ color: 'lavender', fontWeight: 'bold' }}>
+              <h2 style={{ paddingTop: '1rem', margin: 'auto 0', fontWeight: 'normal'}}>Join us to{' '}
+              <span style={{ color: 'gold', fontWeight: 'bold' }}>
                 <Typewriter
                   words={['Teach', 'Learn', 'Collab', 'Repeat!']}
                   loop={100}
@@ -144,7 +144,7 @@ function LoginView() {
               <br/>
               <br/>
               <br/>
-              <p className="small mb-3"><h3>Sign up and step into the world of teaching and learning!</h3></p>
+              <p className="small mb-3"><h3 className="login-text">Sign up and step into the world of teaching and learning!</h3></p>
               <MDBBtn className="mb-4 w-100 gradient-custom-3" onClick={registerpage}>Sign Up</MDBBtn>
               </div>
             </div>

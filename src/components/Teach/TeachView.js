@@ -281,7 +281,7 @@ function TeachView() {
                 )} 
               </div>
               <div className="add-button">
-                  <MDBBtn className='mb-4' size='md' type="submit" onClick={toggleShow}>Add Course</MDBBtn>
+                  <MDBBtn className='button-type mb-4' size='md' type="submit" onClick={toggleShow}>Add Course</MDBBtn>
               </div>
               <br />
 
@@ -326,7 +326,7 @@ function TeachView() {
                       <MDBBtn color='secondary' onClick={toggleShow}>
                         Close
                       </MDBBtn>
-                      <MDBBtn onClick={addCourse}>Add Course</MDBBtn>
+                      <MDBBtn className = 'button-type' onClick={addCourse}>Add Course</MDBBtn>
                     </MDBModalFooter>
                   </MDBModalContent>
                 </MDBModalDialog>
